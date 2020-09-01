@@ -1,8 +1,3 @@
-# bukkit-example
+# Plugin Abstract Library for Bukkit
 
-A small hello world Bukkit plugin built with Gradle and [Gradle for Bukkit](https://github.com/eth-p/gradle-bukkit).
-
-## What does it do?
-
-Type `/hello` to get a response back.  
-That's all, folks!
+A library used by my plugins that contains common code.

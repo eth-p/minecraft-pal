@@ -1,41 +1,41 @@
 plugins {
     id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.0'
     id 'dev.ethp.bukkit' version '0.1.9'
 }
 
 dependencies {
-    bukkitApi()
-    vaultApi()
+    paperApi()
+    
+    // Tests
+    testCompile("org.assertj:assertj-core:3.11.1")
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
 }
 
-group 'com.example.bukkit'
+group 'dev.ethp.pal'
 version = '1.0'
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 
+test {
+    useJUnitPlatform()
+}
+
 bukkit {
     name rootProject.name
-    main 'com.example.BukkitPlugin'
+    main 'dev.ethp.pal.bukkit.PluginAbstractionLibrary'
 
-    description 'A plugin that says hello.'
+    description 'A plugin that provides various utilities for my other plugins.'
 
-    author 'your name'
+    author 'eth-p'
 
     api {
         version '1.14.4'
     }
 
-    command 'hello', {
-        permission 'hello.command'
-        description 'Says hello!'
-        usage 'Usage: /hello'
+    command 'plugin-abstraction-library', {
+        description 'See info about plugin abstraction library.'
     }
-
-    permission 'hello.command', {
-        description 'Gives access to /hello'
-        allow ALL
-    }
-
-    dependency 'Vault'
 }
