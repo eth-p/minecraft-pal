@@ -83,4 +83,17 @@ public class ColorAssert extends AbstractAssert<ColorAssert, Color> {
 		return this;
 	}
 
+	/**
+	 * Assert that the object identity is equal to another color.
+	 *
+	 * @param expected The expected object.
+	 * @return Self, for chaining.
+	 */
+	public ColorAssert isEqualToIdentity(Color expected) {
+		if (actual != expected) {
+			failWithMessage("Expecting equal identity, but objects were not equal.");
+		}
+		return this;
+	}
+
 }

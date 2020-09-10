@@ -8,6 +8,8 @@ import java.util.*
  * A Minecraft chat color.
  *
  * This supports both legacy color codes (1.0-1.15.2) and RGB color codes (1.16+).
+ *
+ * @since 1.0
  */
 @Export
 final class Color {
@@ -24,12 +26,14 @@ final class Color {
 
 	/**
 	 * The color in RRGGBB format.
+	 * @since 1.0
 	 */
 	@Export
 	val rgb: Int
 
 	/**
 	 * The legacy character code that this color is most similar to.
+	 * @since 1.0
 	 */
 	val code: Char
 		@Export
@@ -45,6 +49,7 @@ final class Color {
 
 	/**
 	 * Checks if the color is a legacy color.
+	 * @since 1.0
 	 */
 	@Export
 	fun isLegacy(): Boolean {
@@ -80,6 +85,7 @@ final class Color {
 		 *
 		 * @param rgb The RGB color in 00RRGGBB format.
 		 * @return The corresponding [Color] object.
+		 * @since 1.0
 		 */
 		@JvmStatic
 		@Export
@@ -93,6 +99,7 @@ final class Color {
 		 *
 		 * @param string The RGB string in CSS hex format.
 		 * @return The corresponding [Color] object.
+		 * @since 1.0
 		 */
 		@JvmStatic
 		@Export
@@ -121,6 +128,7 @@ final class Color {
 		 * @param string The RGB string in CSS hex format.
 		 * @return The corresponding [Color] object.
 		 * @throws IllegalArgumentException When provided an invalid color string.
+		 * @since 1.0
 		 */
 		@JvmStatic
 		@Export
@@ -138,6 +146,7 @@ final class Color {
 		 *
 		 * @param code The code character.
 		 * @return The corresponding [Color] object.
+		 * @since 1.0
 		 */
 		@JvmStatic
 		@Export
@@ -155,6 +164,7 @@ final class Color {
 		 * @param code The code character.
 		 * @return The corresponding [Color] object.
 		 * @throws IllegalArgumentException When provided an invalid color code.
+		 * @since 1.0
 		 */
 		@JvmStatic
 		@Export
@@ -169,6 +179,7 @@ final class Color {
 		 *
 		 * @param name The legacy color name (case insensitive).
 		 * @return The corresponding [Color] object.
+		 * @since 1.0
 		 */
 		@JvmStatic
 		@Export
@@ -183,6 +194,7 @@ final class Color {
 		 * @param name The legacy color name (case insensitive).
 		 * @return The corresponding [Color] object.
 		 * @throws IllegalArgumentException When provided an invalid color name.
+		 * @since 1.0
 		 */
 		@JvmStatic
 		@Export
@@ -201,6 +213,7 @@ final class Color {
 		 * Black chat color.
 		 * Code: `&0`
 		 * RGB:  0x000000 (0, 0, 170)
+		 * @since 1.0
 		 */
 		@JvmField
 		@Export
@@ -210,6 +223,7 @@ final class Color {
 		 * Dark blue chat color.
 		 * Code: `&1`
 		 * RGB: 0x0000AA (0, 0, 170)
+		 * @since 1.0
 		 */
 		@JvmField
 		@Export
@@ -219,6 +233,7 @@ final class Color {
 		 * Dark green chat color.
 		 * Code: `&2`
 		 * RGB: 0x00AA00 (0, 170, 0)
+		 * @since 1.0
 		 */
 		@JvmField
 		@Export
@@ -228,6 +243,7 @@ final class Color {
 		 * Dark aqua chat color.
 		 * Code: `&3`
 		 * RGB: 0x00AAAA (0, 170, 170)
+		 * @since 1.0
 		 */
 		@JvmField
 		@Export
@@ -237,6 +253,7 @@ final class Color {
 		 * Dark red chat color.
 		 * Code: `&4`
 		 * RGB: 0x00AAAA (170, 0, 0)
+		 * @since 1.0
 		 */
 		@JvmField
 		@Export
@@ -246,6 +263,7 @@ final class Color {
 		 * Dark purple chat color.
 		 * Code: `&5`
 		 * RGB: 0xAA00AA (170, 0, 170)
+		 * @since 1.0
 		 */
 		@JvmField
 		@Export
@@ -255,6 +273,7 @@ final class Color {
 		 * Dark purple chat color.
 		 * Code: `&6`
 		 * RGB: 0xFFAA00 (255, 170, 0)
+		 * @since 1.0
 		 */
 		@JvmField
 		@Export
@@ -264,6 +283,7 @@ final class Color {
 		 * Gray chat color.
 		 * Code: `&7`
 		 * RGB: 0xAAAAAA (170, 170, 170)
+		 * @since 1.0
 		 */
 		@JvmField
 		@Export
@@ -273,6 +293,7 @@ final class Color {
 		 * Dark gray chat color.
 		 * Code: `&8`
 		 * RGB: 0x555555 (85, 85, 85)
+		 * @since 1.0
 		 */
 		@JvmField
 		@Export
@@ -282,6 +303,7 @@ final class Color {
 		 * Blue chat color.
 		 * Code: `&9`
 		 * RGB: 0x5555FF (85, 85, 255)
+		 * @since 1.0
 		 */
 		@JvmField
 		@Export
@@ -291,6 +313,7 @@ final class Color {
 		 * Blue chat color.
 		 * Code: `&a`
 		 * RGB: 0x55FF55 (85, 255, 85)
+		 * @since 1.0
 		 */
 		@JvmField
 		@Export
@@ -300,6 +323,7 @@ final class Color {
 		 * Aqua chat color.
 		 * Code: `&b`
 		 * RGB: 0x55FFFF (85, 255, 255)
+		 * @since 1.0
 		 */
 		@JvmField
 		@Export
@@ -309,6 +333,7 @@ final class Color {
 		 * Red chat color.
 		 * Code: `&c`
 		 * RGB: 0xFF5555 (255, 85, 85)
+		 * @since 1.0
 		 */
 		@JvmField
 		@Export
@@ -318,6 +343,7 @@ final class Color {
 		 * Light purple chat color.
 		 * Code: `&d`
 		 * RGB: 0xFF5555 (255, 85, 255)
+		 * @since 1.0
 		 */
 		@JvmField
 		@Export
@@ -327,6 +353,7 @@ final class Color {
 		 * Pink purple chat color.
 		 * Code: `&d`
 		 * RGB: 0xFF5555 (255, 85, 255)
+		 * @since 1.0
 		 */
 		@JvmField
 		@Export
@@ -336,6 +363,7 @@ final class Color {
 		 * Yellow chat color.
 		 * Code: `&e`
 		 * RGB: 0xFFFF55 (255, 255, 85)
+		 * @since 1.0
 		 */
 		@JvmField
 		@Export
@@ -345,6 +373,7 @@ final class Color {
 		 * White chat color.
 		 * Code: `&f`
 		 * RGB: 0xFFFFFF (255, 255, 255)
+		 * @since 1.0
 		 */
 		@JvmField
 		@Export
@@ -415,7 +444,7 @@ final class Color {
 		}
 
 		@JvmStatic
-		fun codeToRgb(code: Char): Optional<Int> {
+		private fun codeToRgb(code: Char): Optional<Int> {
 			return codeToColor(code).map { color -> color.rgb }
 		}
 

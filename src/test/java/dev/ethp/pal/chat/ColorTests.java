@@ -6,12 +6,52 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class ColorTests {
 
+	/**
+	 * Test that color variants are the same.
+	 */
+	@Test
+	void variants() {
+		assertThat(Color.LIGHT_PURPLE).isEqualTo(Color.PINK);
+		assertThat(Color.LIGHT_PURPLE).isEqualToIdentity(Color.PINK);
+		assertThat(Color.nameUnsafe("PINK")).isEqualTo(Color.PINK);
+	}
+
+	/**
+	 * Test that color identities are the same.
+	 * This only checks the color constants.
+	 */
+	@Test
+	void identity() {
+		assertThat(Color.BLACK).isEqualToIdentity(Color.BLACK);
+		assertThat(Color.DARK_BLUE).isEqualToIdentity(Color.DARK_BLUE);
+		assertThat(Color.DARK_GREEN).isEqualToIdentity(Color.DARK_GREEN);
+		assertThat(Color.DARK_AQUA).isEqualToIdentity(Color.DARK_AQUA);
+		assertThat(Color.DARK_RED).isEqualToIdentity(Color.DARK_RED);
+		assertThat(Color.DARK_PURPLE).isEqualToIdentity(Color.DARK_PURPLE);
+		assertThat(Color.GOLD).isEqualToIdentity(Color.GOLD);
+		assertThat(Color.GRAY).isEqualToIdentity(Color.GRAY);
+		assertThat(Color.DARK_GRAY).isEqualToIdentity(Color.DARK_GRAY);
+		assertThat(Color.BLUE).isEqualToIdentity(Color.BLUE);
+		assertThat(Color.GREEN).isEqualToIdentity(Color.GREEN);
+		assertThat(Color.AQUA).isEqualToIdentity(Color.AQUA);
+		assertThat(Color.RED).isEqualToIdentity(Color.RED);
+		assertThat(Color.LIGHT_PURPLE).isEqualToIdentity(Color.LIGHT_PURPLE);
+		assertThat(Color.YELLOW).isEqualToIdentity(Color.YELLOW);
+		assertThat(Color.WHITE).isEqualToIdentity(Color.WHITE);
+	}
+
+	/**
+	 * Test that {@link Color#rgb(int)} generates the correct RGB value.
+	 */
 	@Test
 	void rgb() {
 		assertThat(Color.rgb(0xF3E4D5)).hasRgb(0xF3E4D5);
 		assertThat(Color.rgb(0xBBF3E4D5)).hasRgb(0xF3E4D5);
 	}
 
+	/**
+	 * Test that {@link Color#rgb(String)} parses the correct RGB value.
+	 */
 	@Test
 	void rgbString() {
 		assertThat(Color.rgbUnsafe("#f3e4d5")).hasRgb(0xF3E4D5);
@@ -22,7 +62,10 @@ public class ColorTests {
 		assertThat(Color.rgb("fff")).isEmpty();
 		assertThat(Color.rgb("ffffff")).isEmpty();
 	}
-	
+
+	/**
+	 * Test that Color objects have the correct corresponding code.
+	 */
 	@Test
 	void codes() {
 		assertThat(Color.BLACK).isLegacy().hasCode('0');
@@ -43,18 +86,9 @@ public class ColorTests {
 		assertThat(Color.WHITE).isLegacy().hasCode('f');
 	}
 
-	@Test
-	void codesQuantized() {
-		assertThat(Color.rgb(0x131313)).isQuantized().hasCode('0');
-		assertThat(Color.rgb(0x444444)).isQuantized().hasCode('8');
-		assertThat(Color.rgb(0xEAEAEA)).isQuantized().hasCode('f');
-		assertThat(Color.rgb(0xFF0000)).isQuantized().hasCode('c');
-		assertThat(Color.rgb(0xFF00AA)).isQuantized().hasCode('d');
-		assertThat(Color.rgb(0x123499)).isQuantized().hasCode('1');
-		assertThat(Color.rgb(0x1234FF)).isQuantized().hasCode('9');
-		assertThat(Color.rgb(0xCF9000)).isQuantized().hasCode('6');
-	}
-
+	/**
+	 * Test that color code lookup is working as expected.
+	 */
 	@Test
 	void codesLookup() {
 		assertThat(Color.codeUnsafe('0')).isEqualTo(Color.BLACK);
@@ -87,6 +121,9 @@ public class ColorTests {
 		assertThat(Color.code('g')).isEmpty(); // 'f' + 1
 	}
 
+	/**
+	 * Test that color name lookup is working as expected.
+	 */
 	@Test
 	void nameLookup() {
 		assertThat(Color.nameUnsafe("BLACK")).isEqualTo(Color.BLACK);
@@ -118,6 +155,22 @@ public class ColorTests {
 		assertThat(Color.name("dark_black")).isEmpty();
 		assertThat(Color.name("")).isEmpty();
 		assertThat(Color.name("\0")).isEmpty();
+	}
+
+
+	/**
+	 * Test that RGB to legacy code color quantization is working as expected.
+	 */
+	@Test
+	void codesQuantized() {
+		assertThat(Color.rgb(0x131313)).isQuantized().hasCode('0');
+		assertThat(Color.rgb(0x444444)).isQuantized().hasCode('8');
+		assertThat(Color.rgb(0xEAEAEA)).isQuantized().hasCode('f');
+		assertThat(Color.rgb(0xFF0000)).isQuantized().hasCode('c');
+		assertThat(Color.rgb(0xFF00AA)).isQuantized().hasCode('d');
+		assertThat(Color.rgb(0x123499)).isQuantized().hasCode('1');
+		assertThat(Color.rgb(0x1234FF)).isQuantized().hasCode('9');
+		assertThat(Color.rgb(0xCF9000)).isQuantized().hasCode('6');
 	}
 
 
