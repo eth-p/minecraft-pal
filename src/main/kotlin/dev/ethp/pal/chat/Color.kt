@@ -62,6 +62,11 @@ final class Color {
 		return String.format("#%06X", 0xFFFFFF and this.rgb)
 	}
 
+	@Export
+	override fun hashCode(): Int {
+		return this.rgb;
+	}
+
 
 	companion object {
 
@@ -79,7 +84,7 @@ final class Color {
 		@JvmStatic
 		@Export
 		fun rgb(rgb: Int): Color {
-			return Color(rgb)
+			return Color(rgb and 0xFFFFFF)
 		}
 
 		/**
