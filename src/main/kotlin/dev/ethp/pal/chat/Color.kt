@@ -61,8 +61,7 @@ final class Color {
 	override fun toString(): String {
 		return String.format("#%06X", 0xFFFFFF and this.rgb)
 	}
-	
-	
+
 
 	companion object {
 
@@ -114,6 +113,34 @@ final class Color {
 		fun codeUnsafe(code: Char): Color {
 			return codeToColor(code).orElseThrow {
 				IllegalArgumentException("'${code}' is not a valid color code.")
+			}
+		}
+
+		/**
+		 * Finds a Color from the legacy color name.
+		 *
+		 * @param name The legacy color name (case insensitive).
+		 * @return The corresponding [Color] object.
+		 */
+		@JvmStatic
+		@Export
+		fun name(name: String): Optional<Color> {
+			return Optional.ofNullable(LEGACY_NAMETABLE[name.toUpperCase().replace(' ', '_')])
+		}
+
+		/**
+		 * Finds a Color from the legacy color name.
+		 * This will throw on invalid colors.
+		 *
+		 * @param name The legacy color name (case insensitive).
+		 * @return The corresponding [Color] object.
+		 * @throws IllegalArgumentException When provided an invalid color name.
+		 */
+		@JvmStatic
+		@Export
+		fun nameUnsafe(name: String): Color {
+			return name(name).orElseThrow {
+				IllegalArgumentException("'${name}' is not a valid color name.")
 			}
 		}
 
@@ -249,6 +276,15 @@ final class Color {
 		val LIGHT_PURPLE: Color = Color('d', 0xFF55FF)
 
 		/**
+		 * Pink purple chat color.
+		 * Code: `&d`
+		 * RGB: 0xFF5555 (255, 85, 255)
+		 */
+		@JvmField
+		@Export
+		val PINK: Color = LIGHT_PURPLE
+
+		/**
 		 * Yellow chat color.
 		 * Code: `&e`
 		 * RGB: 0xFFFF55 (255, 255, 85)
@@ -282,6 +318,14 @@ final class Color {
 				LegacyColor(DARK_RED), LegacyColor(DARK_PURPLE), LegacyColor(GOLD), LegacyColor(GRAY),
 				LegacyColor(DARK_GRAY), LegacyColor(BLUE), LegacyColor(GREEN), LegacyColor(AQUA),
 				LegacyColor(RED), LegacyColor(LIGHT_PURPLE), LegacyColor(YELLOW), LegacyColor(WHITE)
+		)
+
+		private val LEGACY_NAMETABLE: Map<String, Color> = mapOf(
+				"BLACK" to BLACK, "DARK_BLUE" to DARK_BLUE, "DARK_GREEN" to DARK_GREEN, "DARK_AQUA" to DARK_AQUA,
+				"DARK_RED" to DARK_RED, "DARK_PURPLE" to DARK_PURPLE, "GOLD" to GOLD, "GRAY" to GRAY,
+				"DARK_GRAY" to DARK_GRAY, "BLUE" to BLUE, "GREEN" to GREEN, "AQUA" to AQUA,
+				"RED" to RED, "LIGHT_PURPLE" to LIGHT_PURPLE, "YELLOW" to YELLOW, "WHITE" to WHITE,
+				"PINK" to PINK
 		)
 
 		// ----------------------------------------

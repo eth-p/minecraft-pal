@@ -70,6 +70,39 @@ public class ColorTests {
 		assertThat(Color.code('g')).isEmpty(); // 'f' + 1
 	}
 
+	@Test
+	void nameLookup() {
+		assertThat(Color.nameUnsafe("BLACK")).isEqualTo(Color.BLACK);
+		assertThat(Color.nameUnsafe("DARK_BLUE")).isEqualTo(Color.DARK_BLUE);
+		assertThat(Color.nameUnsafe("DARK_GREEN")).isEqualTo(Color.DARK_GREEN);
+		assertThat(Color.nameUnsafe("DARK_AQUA")).isEqualTo(Color.DARK_AQUA);
+		assertThat(Color.nameUnsafe("DARK_RED")).isEqualTo(Color.DARK_RED);
+		assertThat(Color.nameUnsafe("DARK_PURPLE")).isEqualTo(Color.DARK_PURPLE);
+		assertThat(Color.nameUnsafe("GOLD")).isEqualTo(Color.GOLD);
+		assertThat(Color.nameUnsafe("GRAY")).isEqualTo(Color.GRAY);
+		assertThat(Color.nameUnsafe("DARK_GRAY")).isEqualTo(Color.DARK_GRAY);
+		assertThat(Color.nameUnsafe("BLUE")).isEqualTo(Color.BLUE);
+		assertThat(Color.nameUnsafe("GREEN")).isEqualTo(Color.GREEN);
+		assertThat(Color.nameUnsafe("AQUA")).isEqualTo(Color.AQUA);
+		assertThat(Color.nameUnsafe("RED")).isEqualTo(Color.RED);
+		assertThat(Color.nameUnsafe("LIGHT_PURPLE")).isEqualTo(Color.LIGHT_PURPLE);
+		assertThat(Color.nameUnsafe("YELLOW")).isEqualTo(Color.YELLOW);
+		assertThat(Color.nameUnsafe("WHITE")).isEqualTo(Color.WHITE);
+		
+		// Name variants.
+		assertThat(Color.nameUnsafe("PINK")).isEqualTo(Color.PINK);
+		
+		// Case variants.
+		assertThat(Color.nameUnsafe("black")).isEqualTo(Color.BLACK);
+		assertThat(Color.nameUnsafe("bLaCk")).isEqualTo(Color.BLACK);
+		assertThat(Color.nameUnsafe("LIGHT PURPLE")).isEqualTo(Color.LIGHT_PURPLE);
+
+		// Values outside the lookup table.
+		assertThat(Color.name("dark_black")).isEmpty();
+		assertThat(Color.name("")).isEmpty();
+		assertThat(Color.name("\0")).isEmpty();
+	}
+
 
 }
 
