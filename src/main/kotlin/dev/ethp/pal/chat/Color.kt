@@ -315,8 +315,11 @@ final class Color {
 
 		@JvmStatic
 		private fun codeToColor(code: Char): Optional<Color> {
-			val index = if (code >= 'a') (code - ('a' - 10)) else code - '0'
-			return if (index in 0x0..0xF) Optional.of(LEGACY_TABLE[index].color) else Optional.empty()
+			return when (code) {
+				in '0'..'9' -> Optional.of(LEGACY_TABLE[(code - '0')].color)
+				in 'a'..'f' -> Optional.of(LEGACY_TABLE[(code - 'a') + 10].color)
+				else -> Optional.empty()
+			}
 		}
 
 		@JvmStatic

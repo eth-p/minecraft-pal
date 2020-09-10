@@ -62,6 +62,12 @@ public class ColorTests {
 		assertThat(Color.code('n')).isEmpty();
 		assertThat(Color.code('o')).isEmpty();
 		assertThat(Color.code(' ')).isEmpty();
+
+		// Indices outside the lookup table.
+		assertThat(Color.code('/')).isEmpty(); // '0' - 1
+		assertThat(Color.code(':')).isEmpty(); // '9' + 1
+		assertThat(Color.code('`')).isEmpty(); // 'a' - 1
+		assertThat(Color.code('g')).isEmpty(); // 'f' + 1
 	}
 
 
