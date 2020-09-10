@@ -55,8 +55,7 @@ public class ColorAssert extends AbstractAssert<ColorAssert, Color> {
 		}
 		return this;
 	}
-
-
+	
 	/**
 	 * Assert that the color has a specific RGB corresponding to it.
 	 *
@@ -72,15 +71,14 @@ public class ColorAssert extends AbstractAssert<ColorAssert, Color> {
 	}
 
 	/**
-	 * Assert that the color space values are roughly equal to another LAB color space object.
-	 * Precision: e-1
+	 * Assert that the color is equal to another color.
 	 *
-	 * @param expected The expected LAB color space values.
+	 * @param expected The expected color.
 	 * @return Self, for chaining.
 	 */
 	public ColorAssert isEqualTo(Color expected) {
 		if (!actual.equals(expected)) {
-			failWithMessage("Expecting:\n " + expected + "\nActual Code:\n " + actual);
+			failWithMessage("Expecting:\n " + expected + "\nActual:\n " + actual);
 		}
 		return this;
 	}

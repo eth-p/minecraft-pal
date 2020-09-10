@@ -88,6 +88,49 @@ final class Color {
 		}
 
 		/**
+		 * Creates a RGB color from a CSS color string.
+		 * This is only supported on 1.16, and will be quantized for versions lower than 1.16.
+		 *
+		 * @param string The RGB string in CSS hex format.
+		 * @return The corresponding [Color] object.
+		 */
+		@JvmStatic
+		@Export
+		fun rgb(string: String): Optional<Color> {
+			if (string[0] != '#') return Optional.empty()
+			try {
+				return when (string.length) {
+					4 -> {
+						val n = string.substring(1).toInt(16)
+						val w = n and 0xF00 shl 8 or (n and 0x0F0 shl 4) or (n and 0x00F)
+						return Optional.of(rgb(w or (w shl 4)))
+					}
+					7 -> Optional.of(rgb(string.substring(1).toInt(16)))
+					else -> Optional.empty()
+				}
+			} catch (ex: NumberFormatException) {
+				return Optional.empty()
+			}
+		}
+
+		/**
+		 * Creates a RGB color from a CSS color string.
+		 * This is only supported on 1.16, and will be quantized for versions lower than 1.16.
+		 * This will throw on invalid color strings.
+		 *
+		 * @param string The RGB string in CSS hex format.
+		 * @return The corresponding [Color] object.
+		 * @throws IllegalArgumentException When provided an invalid color string.
+		 */
+		@JvmStatic
+		@Export
+		fun rgbUnsafe(string: String): Color {
+			return rgb(string).orElseThrow {
+				IllegalArgumentException("'${string}' is not a valid color string.")
+			}
+		}
+
+		/**
 		 * Finds a Color from the legacy color code.
 		 *
 		 * This does *not* support formatting codes.

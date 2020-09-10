@@ -7,6 +7,23 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ColorTests {
 
 	@Test
+	void rgb() {
+		assertThat(Color.rgb(0xF3E4D5)).hasRgb(0xF3E4D5);
+		assertThat(Color.rgb(0xBBF3E4D5)).hasRgb(0xF3E4D5);
+	}
+
+	@Test
+	void rgbString() {
+		assertThat(Color.rgbUnsafe("#f3e4d5")).hasRgb(0xF3E4D5);
+		assertThat(Color.rgbUnsafe("#fed")).hasRgb(0xFFEEDD);
+
+		assertThat(Color.rgb("#f3e4d")).isEmpty();
+		assertThat(Color.rgb("#f")).isEmpty();
+		assertThat(Color.rgb("fff")).isEmpty();
+		assertThat(Color.rgb("ffffff")).isEmpty();
+	}
+	
+	@Test
 	void codes() {
 		assertThat(Color.BLACK).isLegacy().hasCode('0');
 		assertThat(Color.DARK_BLUE).isLegacy().hasCode('1');
