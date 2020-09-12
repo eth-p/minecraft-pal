@@ -2,6 +2,9 @@ package dev.ethp.pal.chat
 
 import dev.ethp.apistub.Export
 import java.util.*
+import kotlin.experimental.and
+import kotlin.experimental.or
+import kotlin.experimental.inv
 
 /**
  * A Minecraft text formatting style.
@@ -31,12 +34,32 @@ final class Formatting {
 	 * The JSON property name for this formatting code.
 	 * @since 1.0
 	 */
-	private val property: String
+	internal val property: String
 
 	/**
 	 * A bitmask used for compressing formatting codes together.
 	 */
 	private val mask: Short
+
+	/**
+	 * Combines the formatting style with another formatting style.
+	 * @param other The other formatting style.
+	 * @return The [Combined] style.
+	 * @since 1.0
+	 */
+	infix fun with(other: Formatting): Combined {
+		return Combined(this, other)
+	}
+
+	/**
+	 * Combines the formatting style with another formatting style.
+	 * @param other The other formatting style.
+	 * @return The [Combined] style.
+	 * @since 1.0
+	 */
+	infix fun with(other: Combined): Combined {
+		return other with this
+	}
 
 	@Export
 	override operator fun equals(other: Any?): Boolean {
@@ -52,6 +75,127 @@ final class Formatting {
 	@Export
 	override fun hashCode(): Int {
 		return this.code.hashCode()
+	}
+
+	/**
+	 * A combined formatting style consisting of zero or more styles.
+	 * @since 1.0
+	 */
+	@Export
+	final class Combined {
+
+		private var bitfield: Short;
+
+		private constructor(stylesMask: Short) {
+			this.bitfield = stylesMask
+		}
+
+		/**
+		 * Creates a new combined formatting style.
+		 *
+		 * @param styles The formatting styles.
+		 * @since 1.0
+		 */
+		@Export
+		constructor(vararg styles: Formatting) {
+			this.bitfield = styles.fold(0.toShort(), { acc, format ->
+				(acc or format.mask)
+			})
+		}
+
+		/**
+		 * Creates a formatting style with another style in it.
+		 *
+		 * @param style The style to add.
+		 * @return The new combined formatting style.
+		 * @since 1.0
+		 */
+		@Export
+		infix fun with(style: Formatting): Combined {
+			if (style == RESET) return Combined(RESET)
+			return Combined(this.bitfield or style.mask)
+		}
+
+		/**
+		 * Creates a formatting style with another style in it.
+		 *
+		 * @param style The style to add.
+		 * @return The new combined formatting style.
+		 * @since 1.0
+		 */
+		@Export
+		infix fun with(style: Combined): Combined {
+			if (style.has(RESET)) return Combined(RESET)
+			return Combined(this.bitfield or style.bitfield)
+		}
+
+		/**
+		 * Creates a formatting style without another style in it.
+		 *
+		 * @param style The style to remove.
+		 * @return The new combined formatting style.
+		 * @since 1.0
+		 */
+		@Export
+		infix fun without(style: Formatting): Combined {
+			return Combined(this.bitfield and style.mask.inv())
+		}
+
+		/**
+		 * Creates a formatting style without another style in it.
+		 *
+		 * @param style The style to remove.
+		 * @return The new combined formatting style.
+		 * @since 1.0
+		 */
+		@Export
+		infix fun without(style: Combined): Combined {
+			return Combined(this.bitfield and style.bitfield.inv())
+		}
+
+		/**
+		 * Checks if this combined formatting contains a formatting style.
+		 *
+		 * @param style The style to check.
+		 * @return True if this combined formatting contains the specified style.
+		 * @since 1.0
+		 */
+		@Export
+		infix fun has(style: Formatting): Boolean {
+			return (this.bitfield and style.mask) > 0
+		}
+
+		/**
+		 * Gets the formatting styles that this combined style is made from.
+		 *
+		 * @return The applicable styles.
+		 * @since 1.0
+		 */
+		@Export
+		fun styles(): List<Formatting> {
+			return values().filter { style ->
+				this has style
+			}
+		}
+
+		@Export
+		override fun equals(other: Any?): Boolean {
+			return when (other) {
+				is Combined -> this.bitfield == other.bitfield
+				is Formatting -> this.bitfield == other.mask
+				else -> false
+			}
+		}
+
+		@Export
+		override fun hashCode(): Int {
+			return this.bitfield.toInt()
+		}
+
+		@Export
+		override fun toString(): String {
+			return styles().toString()
+		}
 	}
 
 	companion object {

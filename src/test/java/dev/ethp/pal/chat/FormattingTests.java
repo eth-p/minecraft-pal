@@ -2,6 +2,7 @@ package dev.ethp.pal.chat;
 
 import org.junit.jupiter.api.Test;
 import static dev.ethp.pal.chat.asserts.FormattingAssert.assertThat;
+import static dev.ethp.pal.chat.asserts.FormattingCombinedAssert.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class FormattingTests {
@@ -107,6 +108,27 @@ public class FormattingTests {
 				.contains(Formatting.OBFUSCATED)
 				.contains(Formatting.STRIKETHROUGH)
 				.hasSize(6);
+	}
+
+	/**
+	 * Test combined formatting.
+	 */
+	@Test
+	void combined() {
+		assertThat(Formatting.BOLD.with(Formatting.ITALIC))
+				.isEqualTo(Formatting.BOLD, Formatting.ITALIC);
+
+		assertThat(Formatting.BOLD.with(Formatting.ITALIC).without(Formatting.ITALIC))
+				.isEqualTo(Formatting.BOLD);
+		
+		assertThat(Formatting.BOLD.with(Formatting.ITALIC).without(Formatting.ITALIC.with(Formatting.BOLD)))
+				.isEqualTo();
+
+		assertThat(Formatting.BOLD.with(Formatting.ITALIC).with(Formatting.OBFUSCATED))
+				.isEqualTo(Formatting.BOLD, Formatting.ITALIC, Formatting.OBFUSCATED);
+		
+		assertThat(Formatting.BOLD.with(Formatting.ITALIC).with(Formatting.RESET))
+				.isEqualTo(Formatting.RESET);
 	}
 
 }
