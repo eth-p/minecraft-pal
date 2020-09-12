@@ -43,6 +43,17 @@ public class ColorAssert extends AbstractAssert<ColorAssert, Color> {
 	}
 
 	/**
+	 * Assert that the color is equal to another color.
+	 *
+	 * @param expected The expected color.
+	 * @return Self, for chaining.
+	 */
+	public ColorAssert isVariantOf(Color expected) {
+		return this.isEqualTo(expected)
+				.isEqualToIdentity(expected);
+	}
+
+	/**
 	 * Assert that the color has a specific code corresponding to it.
 	 *
 	 * @param expected The expected code.
@@ -55,7 +66,7 @@ public class ColorAssert extends AbstractAssert<ColorAssert, Color> {
 		}
 		return this;
 	}
-	
+
 	/**
 	 * Assert that the color has a specific RGB corresponding to it.
 	 *

@@ -1,50 +1,77 @@
 package dev.ethp.pal.chat;
 
+import dev.ethp.pal.chat.asserts.FormattingAssert;
 import org.junit.jupiter.api.Test;
 import static dev.ethp.pal.chat.asserts.ColorAssert.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
+import static dev.ethp.pal.chat.Color.*;
 
 public class ColorTests {
 
 	/**
-	 * Test that color variants are the same.
+	 * Test that {@link Color} variants are the same.
+	 * Variants are alternate names for certain formatting types.
 	 */
 	@Test
-	void variants() {
-		assertThat(Color.LIGHT_PURPLE).isEqualTo(Color.PINK);
-		assertThat(Color.LIGHT_PURPLE).isEqualToIdentity(Color.PINK);
-		assertThat(Color.nameUnsafe("PINK")).isEqualTo(Color.PINK);
+	void testVariants() {
+		// LIGHT_PURPLE == PINK
+		assertThat(LIGHT_PURPLE).isVariantOf(PINK);
+		assertThat(Color.nameUnsafe("PINK")).isEqualTo(PINK);
 	}
 
 	/**
-	 * Test that color identities are the same.
+	 * Test that the identities of color objects are the same.
 	 * This only checks the color constants.
 	 */
 	@Test
-	void identity() {
-		assertThat(Color.BLACK).isEqualToIdentity(Color.BLACK);
-		assertThat(Color.DARK_BLUE).isEqualToIdentity(Color.DARK_BLUE);
-		assertThat(Color.DARK_GREEN).isEqualToIdentity(Color.DARK_GREEN);
-		assertThat(Color.DARK_AQUA).isEqualToIdentity(Color.DARK_AQUA);
-		assertThat(Color.DARK_RED).isEqualToIdentity(Color.DARK_RED);
-		assertThat(Color.DARK_PURPLE).isEqualToIdentity(Color.DARK_PURPLE);
-		assertThat(Color.GOLD).isEqualToIdentity(Color.GOLD);
-		assertThat(Color.GRAY).isEqualToIdentity(Color.GRAY);
-		assertThat(Color.DARK_GRAY).isEqualToIdentity(Color.DARK_GRAY);
-		assertThat(Color.BLUE).isEqualToIdentity(Color.BLUE);
-		assertThat(Color.GREEN).isEqualToIdentity(Color.GREEN);
-		assertThat(Color.AQUA).isEqualToIdentity(Color.AQUA);
-		assertThat(Color.RED).isEqualToIdentity(Color.RED);
-		assertThat(Color.LIGHT_PURPLE).isEqualToIdentity(Color.LIGHT_PURPLE);
-		assertThat(Color.YELLOW).isEqualToIdentity(Color.YELLOW);
-		assertThat(Color.WHITE).isEqualToIdentity(Color.WHITE);
+	void testEqualityByIdentity() {
+		assertThat(BLACK).isEqualToIdentity(BLACK);
+		assertThat(DARK_BLUE).isEqualToIdentity(DARK_BLUE);
+		assertThat(DARK_GREEN).isEqualToIdentity(DARK_GREEN);
+		assertThat(DARK_AQUA).isEqualToIdentity(DARK_AQUA);
+		assertThat(DARK_RED).isEqualToIdentity(DARK_RED);
+		assertThat(DARK_PURPLE).isEqualToIdentity(DARK_PURPLE);
+		assertThat(GOLD).isEqualToIdentity(GOLD);
+		assertThat(GRAY).isEqualToIdentity(GRAY);
+		assertThat(DARK_GRAY).isEqualToIdentity(DARK_GRAY);
+		assertThat(BLUE).isEqualToIdentity(BLUE);
+		assertThat(GREEN).isEqualToIdentity(GREEN);
+		assertThat(AQUA).isEqualToIdentity(AQUA);
+		assertThat(RED).isEqualToIdentity(RED);
+		assertThat(LIGHT_PURPLE).isEqualToIdentity(LIGHT_PURPLE);
+		assertThat(YELLOW).isEqualToIdentity(YELLOW);
+		assertThat(WHITE).isEqualToIdentity(WHITE);
+	}
+
+	/**
+	 * Test that the values of color objects are the same.
+	 * This only checks the color constants.
+	 */
+	@Test
+	void testEqualityByValue() {
+		assertThat(BLACK).isEqualTo(BLACK);
+		assertThat(DARK_BLUE).isEqualTo(DARK_BLUE);
+		assertThat(DARK_GREEN).isEqualTo(DARK_GREEN);
+		assertThat(DARK_AQUA).isEqualTo(DARK_AQUA);
+		assertThat(DARK_RED).isEqualTo(DARK_RED);
+		assertThat(DARK_PURPLE).isEqualTo(DARK_PURPLE);
+		assertThat(GOLD).isEqualTo(GOLD);
+		assertThat(GRAY).isEqualTo(GRAY);
+		assertThat(DARK_GRAY).isEqualTo(DARK_GRAY);
+		assertThat(BLUE).isEqualTo(BLUE);
+		assertThat(GREEN).isEqualTo(GREEN);
+		assertThat(AQUA).isEqualTo(AQUA);
+		assertThat(RED).isEqualTo(RED);
+		assertThat(LIGHT_PURPLE).isEqualTo(LIGHT_PURPLE);
+		assertThat(YELLOW).isEqualTo(YELLOW);
+		assertThat(WHITE).isEqualTo(WHITE);
 	}
 
 	/**
 	 * Test that {@link Color#rgb(int)} generates the correct RGB value.
 	 */
 	@Test
-	void rgb() {
+	void testRgb() {
 		assertThat(Color.rgb(0xF3E4D5)).hasRgb(0xF3E4D5);
 		assertThat(Color.rgb(0xBBF3E4D5)).hasRgb(0xF3E4D5);
 	}
@@ -53,7 +80,7 @@ public class ColorTests {
 	 * Test that {@link Color#rgb(String)} parses the correct RGB value.
 	 */
 	@Test
-	void rgbString() {
+	void testRgBString() {
 		assertThat(Color.rgbUnsafe("#f3e4d5")).hasRgb(0xF3E4D5);
 		assertThat(Color.rgbUnsafe("#fed")).hasRgb(0xFFEEDD);
 
@@ -64,49 +91,68 @@ public class ColorTests {
 	}
 
 	/**
-	 * Test that Color objects have the correct corresponding code.
+	 * Test that Color objects have the correct legacy formatting code.
+	 * <p>
+	 * BLACK         == '0'
+	 * DARK_BLUE     == '1'
+	 * DARK_GREEN    == '2'
+	 * DARK_AQUA     == '3'
+	 * DARK_RED      == '4'
+	 * DARK_PURPLE   == '5'
+	 * GOLD          == '6'
+	 * GRAY          == '7'
+	 * DARK_GRAY     == '8'
+	 * BLUE          == '9'
+	 * GREEN         == 'a'
+	 * AQUA          == 'b'
+	 * RED           == 'c'
+	 * LIGHT_PURPLE  == 'd'
+	 * YELLOW        == 'e'
+	 * WHITE         == 'f'
 	 */
 	@Test
-	void codes() {
-		assertThat(Color.BLACK).isLegacy().hasCode('0');
-		assertThat(Color.DARK_BLUE).isLegacy().hasCode('1');
-		assertThat(Color.DARK_GREEN).isLegacy().hasCode('2');
-		assertThat(Color.DARK_AQUA).isLegacy().hasCode('3');
-		assertThat(Color.DARK_RED).isLegacy().hasCode('4');
-		assertThat(Color.DARK_PURPLE).isLegacy().hasCode('5');
-		assertThat(Color.GOLD).isLegacy().hasCode('6');
-		assertThat(Color.GRAY).isLegacy().hasCode('7');
-		assertThat(Color.DARK_GRAY).isLegacy().hasCode('8');
-		assertThat(Color.BLUE).isLegacy().hasCode('9');
-		assertThat(Color.GREEN).isLegacy().hasCode('a');
-		assertThat(Color.AQUA).isLegacy().hasCode('b');
-		assertThat(Color.RED).isLegacy().hasCode('c');
-		assertThat(Color.LIGHT_PURPLE).isLegacy().hasCode('d');
-		assertThat(Color.YELLOW).isLegacy().hasCode('e');
-		assertThat(Color.WHITE).isLegacy().hasCode('f');
+	void testLegacyCode() {
+		assertThat(BLACK).isLegacy().hasCode('0');
+		assertThat(DARK_BLUE).isLegacy().hasCode('1');
+		assertThat(DARK_GREEN).isLegacy().hasCode('2');
+		assertThat(DARK_AQUA).isLegacy().hasCode('3');
+		assertThat(DARK_RED).isLegacy().hasCode('4');
+		assertThat(DARK_PURPLE).isLegacy().hasCode('5');
+		assertThat(GOLD).isLegacy().hasCode('6');
+		assertThat(GRAY).isLegacy().hasCode('7');
+		assertThat(DARK_GRAY).isLegacy().hasCode('8');
+		assertThat(BLUE).isLegacy().hasCode('9');
+		assertThat(GREEN).isLegacy().hasCode('a');
+		assertThat(AQUA).isLegacy().hasCode('b');
+		assertThat(RED).isLegacy().hasCode('c');
+		assertThat(LIGHT_PURPLE).isLegacy().hasCode('d');
+		assertThat(YELLOW).isLegacy().hasCode('e');
+		assertThat(WHITE).isLegacy().hasCode('f');
 	}
-
+	
 	/**
 	 * Test that color code lookup is working as expected.
 	 */
 	@Test
-	void codesLookup() {
-		assertThat(Color.codeUnsafe('0')).isEqualTo(Color.BLACK);
-		assertThat(Color.codeUnsafe('1')).isEqualTo(Color.DARK_BLUE);
-		assertThat(Color.codeUnsafe('2')).isEqualTo(Color.DARK_GREEN);
-		assertThat(Color.codeUnsafe('3')).isEqualTo(Color.DARK_AQUA);
-		assertThat(Color.codeUnsafe('4')).isEqualTo(Color.DARK_RED);
-		assertThat(Color.codeUnsafe('5')).isEqualTo(Color.DARK_PURPLE);
-		assertThat(Color.codeUnsafe('6')).isEqualTo(Color.GOLD);
-		assertThat(Color.codeUnsafe('7')).isEqualTo(Color.GRAY);
-		assertThat(Color.codeUnsafe('8')).isEqualTo(Color.DARK_GRAY);
-		assertThat(Color.codeUnsafe('9')).isEqualTo(Color.BLUE);
-		assertThat(Color.codeUnsafe('a')).isEqualTo(Color.GREEN);
-		assertThat(Color.codeUnsafe('b')).isEqualTo(Color.AQUA);
-		assertThat(Color.codeUnsafe('c')).isEqualTo(Color.RED);
-		assertThat(Color.codeUnsafe('d')).isEqualTo(Color.LIGHT_PURPLE);
-		assertThat(Color.codeUnsafe('e')).isEqualTo(Color.YELLOW);
-		assertThat(Color.codeUnsafe('f')).isEqualTo(Color.WHITE);
+	void testLegacyLookup() {
+		assertThat(Color.codeUnsafe('0')).isEqualTo(BLACK);
+		assertThat(Color.codeUnsafe('1')).isEqualTo(DARK_BLUE);
+		assertThat(Color.codeUnsafe('2')).isEqualTo(DARK_GREEN);
+		assertThat(Color.codeUnsafe('3')).isEqualTo(DARK_AQUA);
+		assertThat(Color.codeUnsafe('4')).isEqualTo(DARK_RED);
+		assertThat(Color.codeUnsafe('5')).isEqualTo(DARK_PURPLE);
+		assertThat(Color.codeUnsafe('6')).isEqualTo(GOLD);
+		assertThat(Color.codeUnsafe('7')).isEqualTo(GRAY);
+		assertThat(Color.codeUnsafe('8')).isEqualTo(DARK_GRAY);
+		assertThat(Color.codeUnsafe('9')).isEqualTo(BLUE);
+		assertThat(Color.codeUnsafe('a')).isEqualTo(GREEN);
+		assertThat(Color.codeUnsafe('b')).isEqualTo(AQUA);
+		assertThat(Color.codeUnsafe('c')).isEqualTo(RED);
+		assertThat(Color.codeUnsafe('d')).isEqualTo(LIGHT_PURPLE);
+		assertThat(Color.codeUnsafe('e')).isEqualTo(YELLOW);
+		assertThat(Color.codeUnsafe('f')).isEqualTo(WHITE);
+
+		// Indices outside the lookup table. (Formatting codes)
 		assertThat(Color.code('k')).isEmpty();
 		assertThat(Color.code('l')).isEmpty();
 		assertThat(Color.code('m')).isEmpty();
@@ -114,7 +160,7 @@ public class ColorTests {
 		assertThat(Color.code('o')).isEmpty();
 		assertThat(Color.code(' ')).isEmpty();
 
-		// Indices outside the lookup table.
+		// Indices outside the lookup table. (Range)
 		assertThat(Color.code('/')).isEmpty(); // '0' - 1
 		assertThat(Color.code(':')).isEmpty(); // '9' + 1
 		assertThat(Color.code('`')).isEmpty(); // 'a' - 1
@@ -122,34 +168,31 @@ public class ColorTests {
 	}
 
 	/**
-	 * Test that color name lookup is working as expected.
+	 * Test that formatting name lookup is working as expected.
 	 */
 	@Test
-	void nameLookup() {
-		assertThat(Color.nameUnsafe("BLACK")).isEqualTo(Color.BLACK);
-		assertThat(Color.nameUnsafe("DARK_BLUE")).isEqualTo(Color.DARK_BLUE);
-		assertThat(Color.nameUnsafe("DARK_GREEN")).isEqualTo(Color.DARK_GREEN);
-		assertThat(Color.nameUnsafe("DARK_AQUA")).isEqualTo(Color.DARK_AQUA);
-		assertThat(Color.nameUnsafe("DARK_RED")).isEqualTo(Color.DARK_RED);
-		assertThat(Color.nameUnsafe("DARK_PURPLE")).isEqualTo(Color.DARK_PURPLE);
-		assertThat(Color.nameUnsafe("GOLD")).isEqualTo(Color.GOLD);
-		assertThat(Color.nameUnsafe("GRAY")).isEqualTo(Color.GRAY);
-		assertThat(Color.nameUnsafe("DARK_GRAY")).isEqualTo(Color.DARK_GRAY);
-		assertThat(Color.nameUnsafe("BLUE")).isEqualTo(Color.BLUE);
-		assertThat(Color.nameUnsafe("GREEN")).isEqualTo(Color.GREEN);
-		assertThat(Color.nameUnsafe("AQUA")).isEqualTo(Color.AQUA);
-		assertThat(Color.nameUnsafe("RED")).isEqualTo(Color.RED);
-		assertThat(Color.nameUnsafe("LIGHT_PURPLE")).isEqualTo(Color.LIGHT_PURPLE);
-		assertThat(Color.nameUnsafe("YELLOW")).isEqualTo(Color.YELLOW);
-		assertThat(Color.nameUnsafe("WHITE")).isEqualTo(Color.WHITE);
-		
-		// Name variants.
-		assertThat(Color.nameUnsafe("PINK")).isEqualTo(Color.PINK);
-		
-		// Case variants.
-		assertThat(Color.nameUnsafe("black")).isEqualTo(Color.BLACK);
-		assertThat(Color.nameUnsafe("bLaCk")).isEqualTo(Color.BLACK);
-		assertThat(Color.nameUnsafe("LIGHT PURPLE")).isEqualTo(Color.LIGHT_PURPLE);
+	void testNameLookup() {
+		assertThat(Color.nameUnsafe("BLACK")).isEqualTo(BLACK);
+		assertThat(Color.nameUnsafe("DARK_BLUE")).isEqualTo(DARK_BLUE);
+		assertThat(Color.nameUnsafe("DARK_GREEN")).isEqualTo(DARK_GREEN);
+		assertThat(Color.nameUnsafe("DARK_AQUA")).isEqualTo(DARK_AQUA);
+		assertThat(Color.nameUnsafe("DARK_RED")).isEqualTo(DARK_RED);
+		assertThat(Color.nameUnsafe("DARK_PURPLE")).isEqualTo(DARK_PURPLE);
+		assertThat(Color.nameUnsafe("GOLD")).isEqualTo(GOLD);
+		assertThat(Color.nameUnsafe("GRAY")).isEqualTo(GRAY);
+		assertThat(Color.nameUnsafe("DARK_GRAY")).isEqualTo(DARK_GRAY);
+		assertThat(Color.nameUnsafe("BLUE")).isEqualTo(BLUE);
+		assertThat(Color.nameUnsafe("GREEN")).isEqualTo(GREEN);
+		assertThat(Color.nameUnsafe("AQUA")).isEqualTo(AQUA);
+		assertThat(Color.nameUnsafe("RED")).isEqualTo(RED);
+		assertThat(Color.nameUnsafe("LIGHT_PURPLE")).isEqualTo(LIGHT_PURPLE);
+		assertThat(Color.nameUnsafe("YELLOW")).isEqualTo(YELLOW);
+		assertThat(Color.nameUnsafe("WHITE")).isEqualTo(WHITE);
+
+		// Case/space insensitivity.
+		assertThat(Color.nameUnsafe("black")).isEqualTo(BLACK);
+		assertThat(Color.nameUnsafe("bLaCk")).isEqualTo(BLACK);
+		assertThat(Color.nameUnsafe("LIGHT PURPLE")).isEqualTo(LIGHT_PURPLE);
 
 		// Values outside the lookup table.
 		assertThat(Color.name("dark_black")).isEmpty();
@@ -158,35 +201,35 @@ public class ColorTests {
 	}
 
 	/**
-	 * Test that the values list contains all values.
+	 * Test that {@link Color#values()} contains all values.
 	 */
 	@Test
-	void valuesList() {
+	void testList() {
 		assertThat(Color.values())
-				.contains(Color.BLACK)
-				.contains(Color.DARK_BLUE)
-				.contains(Color.DARK_GREEN)
-				.contains(Color.DARK_AQUA)
-				.contains(Color.DARK_RED)
-				.contains(Color.DARK_PURPLE)
-				.contains(Color.GOLD)
-				.contains(Color.GRAY)
-				.contains(Color.DARK_GRAY)
-				.contains(Color.BLUE)
-				.contains(Color.GREEN)
-				.contains(Color.AQUA)
-				.contains(Color.RED)
-				.contains(Color.LIGHT_PURPLE)
-				.contains(Color.YELLOW)
-				.contains(Color.WHITE)
+				.contains(BLACK)
+				.contains(DARK_BLUE)
+				.contains(DARK_GREEN)
+				.contains(DARK_AQUA)
+				.contains(DARK_RED)
+				.contains(DARK_PURPLE)
+				.contains(GOLD)
+				.contains(GRAY)
+				.contains(DARK_GRAY)
+				.contains(BLUE)
+				.contains(GREEN)
+				.contains(AQUA)
+				.contains(RED)
+				.contains(LIGHT_PURPLE)
+				.contains(YELLOW)
+				.contains(WHITE)
 				.hasSize(16);
 	}
 
 	/**
 	 * Test that the {@link Color#toLegacyString()} function works.
 	 */
-	void legacyString() {
-		assertThat(Color.BLACK.toLegacyString())
+	void testLegacyString() {
+		assertThat(BLACK.toLegacyString())
 				.isEqualTo("\u00A70");
 	}
 
@@ -194,7 +237,7 @@ public class ColorTests {
 	 * Test that RGB to legacy code color quantization is working as expected.
 	 */
 	@Test
-	void codesQuantized() {
+	void testQuantization() {
 		assertThat(Color.rgb(0x131313)).isQuantized().hasCode('0');
 		assertThat(Color.rgb(0x444444)).isQuantized().hasCode('8');
 		assertThat(Color.rgb(0xEAEAEA)).isQuantized().hasCode('f');
