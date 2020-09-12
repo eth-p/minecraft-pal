@@ -56,6 +56,17 @@ final class Color {
 		return rgbIsLegacy(this.rgb)
 	}
 
+	/**
+	 * Gets the color as a legacy Minecraft text string.
+	 *
+	 * @return The color code specifier (\xA7) followed by the color code.
+	 * @since 1.0
+	 */
+	@Export
+	fun toLegacyString(): String {
+		return "\u00A7${this.code}"
+	}
+
 	@Export
 	override operator fun equals(other: Any?): Boolean {
 		if (other !is Color) return false

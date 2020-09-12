@@ -183,6 +183,14 @@ public class ColorTests {
 	}
 
 	/**
+	 * Test that the {@link Color#toLegacyString()} function works.
+	 */
+	void legacyString() {
+		assertThat(Color.BLACK.toLegacyString())
+				.isEqualTo("\u00A70");
+	}
+
+	/**
 	 * Test that RGB to legacy code color quantization is working as expected.
 	 */
 	@Test

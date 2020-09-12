@@ -130,6 +130,14 @@ public class FormattingTests {
 		assertThat(Formatting.BOLD.with(Formatting.ITALIC).with(Formatting.RESET))
 				.isEqualTo(Formatting.RESET);
 	}
+	
+	/**
+	 * Test that the {@link Formatting#toLegacyString()} function works.
+	 */
+	void legacyString() {
+		assertThat(Formatting.OBFUSCATED.toLegacyString())
+				.isEqualTo("\u00A7k");
+	}
 
 }
 

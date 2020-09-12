@@ -60,6 +60,17 @@ final class Formatting {
 	infix fun with(other: Combined): Combined {
 		return other with this
 	}
+	
+	/**
+	 * Gets the formatting style as a legacy Minecraft text string.
+	 *
+	 * @return The formatting code specifier (\xA7) followed by the formatting code.
+	 * @since 1.0
+	 */
+	@Export
+	fun toLegacyString(): String {
+		return "\u00A7${this.code}"
+	}
 
 	@Export
 	override operator fun equals(other: Any?): Boolean {
@@ -84,7 +95,7 @@ final class Formatting {
 	@Export
 	final class Combined {
 
-		private var bitfield: Short;
+		internal var bitfield: Short;
 
 		private constructor(stylesMask: Short) {
 			this.bitfield = stylesMask
