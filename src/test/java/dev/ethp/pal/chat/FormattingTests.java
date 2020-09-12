@@ -93,7 +93,21 @@ public class FormattingTests {
 		assertThat(Formatting.name("")).isEmpty();
 		assertThat(Formatting.name("\0")).isEmpty();
 	}
-
+	
+	/**
+	 * Test that the values list contains all values.
+	 */
+	@Test
+	void valuesList() {
+		assertThat(Formatting.values())
+				.contains(Formatting.BOLD)
+				.contains(Formatting.ITALIC)
+				.contains(Formatting.RESET)
+				.contains(Formatting.UNDERLINED)
+				.contains(Formatting.OBFUSCATED)
+				.contains(Formatting.STRIKETHROUGH)
+				.hasSize(6);
+	}
 
 }
 

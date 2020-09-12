@@ -157,6 +157,30 @@ public class ColorTests {
 		assertThat(Color.name("\0")).isEmpty();
 	}
 
+	/**
+	 * Test that the values list contains all values.
+	 */
+	@Test
+	void valuesList() {
+		assertThat(Color.values())
+				.contains(Color.BLACK)
+				.contains(Color.DARK_BLUE)
+				.contains(Color.DARK_GREEN)
+				.contains(Color.DARK_AQUA)
+				.contains(Color.DARK_RED)
+				.contains(Color.DARK_PURPLE)
+				.contains(Color.GOLD)
+				.contains(Color.GRAY)
+				.contains(Color.DARK_GRAY)
+				.contains(Color.BLUE)
+				.contains(Color.GREEN)
+				.contains(Color.AQUA)
+				.contains(Color.RED)
+				.contains(Color.LIGHT_PURPLE)
+				.contains(Color.YELLOW)
+				.contains(Color.WHITE)
+				.hasSize(16);
+	}
 
 	/**
 	 * Test that RGB to legacy code color quantization is working as expected.

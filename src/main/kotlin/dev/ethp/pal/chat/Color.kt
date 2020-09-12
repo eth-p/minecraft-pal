@@ -5,7 +5,7 @@ import dev.ethp.pal.math.ColorSpace
 import java.util.*
 
 /**
- * A Minecraft chat color.
+ * A Minecraft text color.
  *
  * This supports both legacy color codes (1.0-1.15.2) and RGB color codes (1.16+).
  *
@@ -404,6 +404,17 @@ final class Color {
 				"RED" to RED, "LIGHT_PURPLE" to LIGHT_PURPLE, "YELLOW" to YELLOW, "WHITE" to WHITE,
 				"PINK" to PINK
 		)
+
+		/**
+		 * A list of all legacy colors.
+		 * @since 1.0
+		 */
+		@JvmStatic
+		fun values(): List<Color> {
+			return LEGACY_TABLE.asList().map {
+				legacyColor -> legacyColor.color
+			}
+		}
 
 		// ----------------------------------------
 		// endregion

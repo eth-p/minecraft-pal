@@ -4,7 +4,7 @@ import dev.ethp.apistub.Export
 import java.util.*
 
 /**
- * A Minecraft chat formatting style.
+ * A Minecraft text formatting style.
  * @since 1.0
  */
 @Export
@@ -210,13 +210,22 @@ final class Formatting {
 		// ----------------------------------------
 
 		private val LEGACY_TABLE: Array<Formatting> = arrayOf(
-				OBFUSCATED, BOLD, STRIKETHROUGH, UNDERLINED, ITALIC
+				OBFUSCATED, BOLD, STRIKETHROUGH, UNDERLINED, ITALIC, RESET
 		)
 
 		private val LEGACY_NAMETABLE: Map<String, Formatting> = mapOf(
 				"RESET" to RESET, "BOLD" to BOLD, "ITALIC" to ITALIC, "STRIKETHROUGH" to STRIKETHROUGH,
 				"UNDERLINED" to UNDERLINED, "UNDERLINE" to UNDERLINE, "OBFUSCATED" to OBFUSCATED, "MAGIC" to MAGIC,
 		)
+
+		/**
+		 * A list of all formatting styles.
+		 * @since 1.0
+		 */
+		@JvmStatic
+		fun values(): List<Formatting> {
+			return LEGACY_TABLE.asList()
+		}
 
 		// ----------------------------------------
 		// endregion
