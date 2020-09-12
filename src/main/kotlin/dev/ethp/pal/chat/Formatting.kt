@@ -114,6 +114,17 @@ final class Formatting {
 		/**
 		 * Creates a new combined formatting style.
 		 *
+		 * @param styles The formatting style.
+		 * @since 1.0
+		 */
+		@Export
+		constructor(style: Formatting) {
+			this.bitfield = style.mask
+		}
+		
+		/**
+		 * Creates a new combined formatting style.
+		 *
 		 * @param styles The formatting styles.
 		 * @since 1.0
 		 */
