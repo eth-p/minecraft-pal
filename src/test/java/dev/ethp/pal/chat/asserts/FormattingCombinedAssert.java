@@ -3,11 +3,9 @@ package dev.ethp.pal.chat.asserts;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import dev.ethp.pal.chat.Color;
 import dev.ethp.pal.chat.Formatting;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Assertions for {@link Formatting.Combined}.
@@ -44,7 +42,7 @@ public class FormattingCombinedAssert extends AbstractAssert<FormattingCombinedA
 	 */
 	public FormattingCombinedAssert withoutStyle(Formatting expected) {
 		isNotNull();
-		if (!this.actual.has(expected)) {
+		if (this.actual.has(expected)) {
 			failWithMessage("Formatting: " + actual + "\nNot Expecting Style:\n '" + expected + "'\nHas style.");
 		}
 		return this;

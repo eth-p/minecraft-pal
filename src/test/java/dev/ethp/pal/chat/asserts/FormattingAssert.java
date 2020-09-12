@@ -30,6 +30,17 @@ public class FormattingAssert extends AbstractAssert<FormattingAssert, Formattin
 		}
 		return this;
 	}
+
+	/**
+	 * Assert that the formatting is equal to another color.
+	 *
+	 * @param expected The expected formatting.
+	 * @return Self, for chaining.
+	 */
+	public FormattingAssert isVariantOf(Formatting expected) {
+		return this.isEqualTo(expected)
+				.isEqualToIdentity(expected);
+	}
 	
 	/**
 	 * Assert that the formatting is equal to another color.
@@ -37,7 +48,7 @@ public class FormattingAssert extends AbstractAssert<FormattingAssert, Formattin
 	 * @param expected The expected formatting.
 	 * @return Self, for chaining.
 	 */
-	public FormattingAssert isEqualTo(Color expected) {
+	public FormattingAssert isEqualTo(Formatting expected) {
 		if (!actual.equals(expected)) {
 			failWithMessage("Expecting:\n " + expected + "\nActual:\n " + actual);
 		}

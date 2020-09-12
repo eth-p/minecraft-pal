@@ -4,60 +4,85 @@ import org.junit.jupiter.api.Test;
 import static dev.ethp.pal.chat.asserts.FormattingAssert.assertThat;
 import static dev.ethp.pal.chat.asserts.FormattingCombinedAssert.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
+import static dev.ethp.pal.chat.Formatting.*;
 
 public class FormattingTests {
 
 	/**
-	 * Test that formatting variants are the same.
+	 * Test that {@link Formatting} variants are the same.
+	 * Variants are alternate names for certain formatting types.
 	 */
 	@Test
-	void variants() {
-		assertThat(Formatting.MAGIC).isEqualTo(Formatting.OBFUSCATED);
-		assertThat(Formatting.MAGIC).isEqualToIdentity(Formatting.OBFUSCATED);
-		assertThat(Formatting.nameUnsafe("MAGIC")).isEqualTo(Formatting.OBFUSCATED);
-		assertThat(Formatting.UNDERLINE).isEqualTo(Formatting.UNDERLINED);
-		assertThat(Formatting.UNDERLINE).isEqualToIdentity(Formatting.UNDERLINED);
-		assertThat(Formatting.nameUnsafe("UNDERLINE")).isEqualTo(Formatting.UNDERLINED);
+	void testVariants() {
+		// MAGIC == OBFUSCATED
+		assertThat(MAGIC).isVariantOf(OBFUSCATED);
+		assertThat(Formatting.nameUnsafe("MAGIC")).isEqualTo(OBFUSCATED);
+
+		// MAGIC == UNDERLINE
+		assertThat(UNDERLINE).isVariantOf(UNDERLINED);
+		assertThat(Formatting.nameUnsafe("UNDERLINE")).isEqualTo(UNDERLINED);
 	}
 
 	/**
-	 * Test that formatting identities are the same.
+	 * Test that the identities of formatting objects are the same.
 	 * This only checks the formatting constants.
 	 */
 	@Test
-	void identity() {
-		assertThat(Formatting.RESET).isEqualToIdentity(Formatting.RESET);
-		assertThat(Formatting.BOLD).isEqualToIdentity(Formatting.BOLD);
-		assertThat(Formatting.STRIKETHROUGH).isEqualToIdentity(Formatting.STRIKETHROUGH);
-		assertThat(Formatting.UNDERLINED).isEqualToIdentity(Formatting.UNDERLINED);
-		assertThat(Formatting.ITALIC).isEqualToIdentity(Formatting.ITALIC);
-		assertThat(Formatting.OBFUSCATED).isEqualToIdentity(Formatting.OBFUSCATED);
+	void testEqualityByIdentity() {
+		assertThat(RESET).isEqualToIdentity(RESET);
+		assertThat(BOLD).isEqualToIdentity(BOLD);
+		assertThat(STRIKETHROUGH).isEqualToIdentity(STRIKETHROUGH);
+		assertThat(UNDERLINED).isEqualToIdentity(UNDERLINED);
+		assertThat(ITALIC).isEqualToIdentity(ITALIC);
+		assertThat(OBFUSCATED).isEqualToIdentity(OBFUSCATED);
 	}
 
 	/**
-	 * Test that Formatting objects have the correct corresponding code.
+	 * Test that the values of formatting objects are the same.
 	 */
 	@Test
-	void codes() {
-		assertThat(Formatting.RESET).hasCode('r');
-		assertThat(Formatting.BOLD).hasCode('l');
-		assertThat(Formatting.STRIKETHROUGH).hasCode('m');
-		assertThat(Formatting.UNDERLINED).hasCode('n');
-		assertThat(Formatting.ITALIC).hasCode('o');
-		assertThat(Formatting.OBFUSCATED).hasCode('k');
+	void testEqualityByValue() {
+		assertThat(RESET).isEqualTo(RESET);
+		assertThat(BOLD).isEqualTo(BOLD);
+		assertThat(STRIKETHROUGH).isEqualTo(STRIKETHROUGH);
+		assertThat(UNDERLINED).isEqualTo(UNDERLINED);
+		assertThat(ITALIC).isEqualTo(ITALIC);
+		assertThat(OBFUSCATED).isEqualTo(OBFUSCATED);
+	}
+
+	/**
+	 * Test that Formatting objects have the correct legacy formatting code.
+	 * <p>
+	 * RESET         == 'r'
+	 * OBFUSCATED    == 'k'
+	 * BOLD          == 'l'
+	 * STRIKETHROUGH == 'm'
+	 * UNDERLINED    == 'n'
+	 * ITALIC        == 'o'
+	 */
+	@Test
+	void testLegacyCode() {
+		assertThat(RESET).hasCode('r');
+		assertThat(OBFUSCATED).hasCode('k');
+		assertThat(BOLD).hasCode('l');
+		assertThat(STRIKETHROUGH).hasCode('m');
+		assertThat(UNDERLINED).hasCode('n');
+		assertThat(ITALIC).hasCode('o');
 	}
 
 	/**
 	 * Test that formatting code lookup is working as expected.
 	 */
 	@Test
-	void codesLookup() {
-		assertThat(Formatting.codeUnsafe('r')).isEqualTo(Formatting.RESET);
-		assertThat(Formatting.codeUnsafe('l')).isEqualTo(Formatting.BOLD);
-		assertThat(Formatting.codeUnsafe('m')).isEqualTo(Formatting.STRIKETHROUGH);
-		assertThat(Formatting.codeUnsafe('n')).isEqualTo(Formatting.UNDERLINED);
-		assertThat(Formatting.codeUnsafe('o')).isEqualTo(Formatting.ITALIC);
-		assertThat(Formatting.codeUnsafe('k')).isEqualTo(Formatting.OBFUSCATED);
+	void testLegacyLookup() {
+		assertThat(Formatting.codeUnsafe('r')).isEqualTo(RESET);
+		assertThat(Formatting.codeUnsafe('k')).isEqualTo(OBFUSCATED);
+		assertThat(Formatting.codeUnsafe('l')).isEqualTo(BOLD);
+		assertThat(Formatting.codeUnsafe('m')).isEqualTo(STRIKETHROUGH);
+		assertThat(Formatting.codeUnsafe('n')).isEqualTo(UNDERLINED);
+		assertThat(Formatting.codeUnsafe('o')).isEqualTo(ITALIC);
+
+		// Indices outside the lookup table. (Color codes)
 		assertThat(Formatting.code('1')).isEmpty();
 		assertThat(Formatting.code('2')).isEmpty();
 		assertThat(Formatting.code('a')).isEmpty();
@@ -65,7 +90,7 @@ public class FormattingTests {
 		assertThat(Formatting.code('c')).isEmpty();
 		assertThat(Formatting.code('d')).isEmpty();
 
-		// Indices outside the lookup table.
+		// Indices outside the lookup table. (Range)
 		assertThat(Formatting.code('q')).isEmpty(); // 'r' - 1
 		assertThat(Formatting.code('s')).isEmpty(); // 'r' + 1
 		assertThat(Formatting.code('j')).isEmpty(); // 'k' - 1
@@ -76,16 +101,15 @@ public class FormattingTests {
 	 * Test that formatting name lookup is working as expected.
 	 */
 	@Test
-	void nameLookup() {
-		assertThat(Formatting.nameUnsafe("RESET")).isEqualTo(Formatting.RESET);
-		assertThat(Formatting.nameUnsafe("BOLD")).isEqualTo(Formatting.BOLD);
-		assertThat(Formatting.nameUnsafe("STRIKETHROUGH")).isEqualTo(Formatting.STRIKETHROUGH);
-		assertThat(Formatting.nameUnsafe("UNDERLINED")).isEqualTo(Formatting.UNDERLINED);
-		assertThat(Formatting.nameUnsafe("ITALIC")).isEqualTo(Formatting.ITALIC);
-		assertThat(Formatting.nameUnsafe("OBFUSCATED")).isEqualTo(Formatting.OBFUSCATED);
-		
-		
-		// Case variants.
+	void testNameLookup() {
+		assertThat(Formatting.nameUnsafe("RESET")).isEqualTo(RESET);
+		assertThat(Formatting.nameUnsafe("BOLD")).isEqualTo(BOLD);
+		assertThat(Formatting.nameUnsafe("STRIKETHROUGH")).isEqualTo(STRIKETHROUGH);
+		assertThat(Formatting.nameUnsafe("UNDERLINED")).isEqualTo(UNDERLINED);
+		assertThat(Formatting.nameUnsafe("ITALIC")).isEqualTo(ITALIC);
+		assertThat(Formatting.nameUnsafe("OBFUSCATED")).isEqualTo(OBFUSCATED);
+
+		// Case insensitivity.
 		assertThat(Formatting.nameUnsafe("reset")).isEqualTo(Formatting.RESET);
 		assertThat(Formatting.nameUnsafe("reSet")).isEqualTo(Formatting.RESET);
 
@@ -94,87 +118,136 @@ public class FormattingTests {
 		assertThat(Formatting.name("")).isEmpty();
 		assertThat(Formatting.name("\0")).isEmpty();
 	}
-	
+
 	/**
-	 * Test that the values list contains all values.
+	 * Test that {@link Formatting#values()} contains all values.
 	 */
 	@Test
-	void valuesList() {
+	void testList() {
 		assertThat(Formatting.values())
-				.contains(Formatting.BOLD)
-				.contains(Formatting.ITALIC)
-				.contains(Formatting.RESET)
-				.contains(Formatting.UNDERLINED)
-				.contains(Formatting.OBFUSCATED)
-				.contains(Formatting.STRIKETHROUGH)
+				.contains(RESET)
+				.contains(OBFUSCATED)
+				.contains(BOLD)
+				.contains(STRIKETHROUGH)
+				.contains(UNDERLINED)
+				.contains(ITALIC)
 				.hasSize(6);
 	}
 
 	/**
-	 * Test combined formatting.
+	 * Test combined formatting styles using the `with` methods.
 	 */
 	@Test
-	void combinedWith() {
-		assertThat(Formatting.BOLD.with(Formatting.ITALIC))
-				.isEqualTo(Formatting.BOLD, Formatting.ITALIC);
-		
-		assertThat(Formatting.BOLD.with(Formatting.ITALIC).with(Formatting.OBFUSCATED))
-				.isEqualTo(Formatting.BOLD, Formatting.ITALIC, Formatting.OBFUSCATED);
-		
-		assertThat(Formatting.BOLD.with(Formatting.ITALIC).with(Formatting.RESET))
-				.isEqualTo(Formatting.RESET, Formatting.ITALIC, Formatting.BOLD);
-		
-		assertThat(Formatting.BOLD.with(Formatting.RESET).with(Formatting.ITALIC, Formatting.UNDERLINED))
-				.isEqualTo(Formatting.BOLD, Formatting.RESET, Formatting.ITALIC, Formatting.UNDERLINED);
+	void testCombinedWith() {
+		// Formatting.Combined(Formatting.Combined(Formatting))
+		assertThat(new Formatting.Combined(BOLD))
+				.isEqualTo(BOLD);
 
-		assertThat(Formatting.BOLD.with(
-				Formatting.ITALIC,
-				Formatting.OBFUSCATED,
-				Formatting.RESET,
-				Formatting.STRIKETHROUGH,
-				Formatting.UNDERLINED
-			))
-				.hasStyle(Formatting.BOLD)
-				.hasStyle(Formatting.ITALIC)
-				.hasStyle(Formatting.OBFUSCATED)
-				.hasStyle(Formatting.RESET)
-				.hasStyle(Formatting.STRIKETHROUGH)
-				.hasStyle(Formatting.UNDERLINED);
+		// Formatting.Combined(Formatting.Combined(Formatting...))
+		assertThat(new Formatting.Combined(BOLD, ITALIC))
+				.isEqualTo(BOLD, ITALIC);
+
+		// Formatting.with(Formatting)
+		assertThat(BOLD.with(ITALIC))
+				.isEqualTo(BOLD, ITALIC);
+
+		// Formatting.with(Formatting...)
+		assertThat(BOLD.with(ITALIC, RESET))
+				.isEqualTo(BOLD, ITALIC, RESET);
+
+		// Formatting.with(Formatting.Combined)
+		assertThat(BOLD.with(new Formatting.Combined(ITALIC)))
+				.isEqualTo(BOLD, ITALIC);
+
+		// Formatting.Combined(Formatting)
+		assertThat(new Formatting.Combined(BOLD))
+				.isEqualTo(BOLD);
+
+		// Formatting.Combined.with(Formatting)
+		assertThat(new Formatting.Combined(BOLD)
+				.with(ITALIC))
+				.isEqualTo(BOLD, ITALIC);
+
+		// Formatting.Combined.with(Formatting...)
+		assertThat(new Formatting.Combined()
+				.with(ITALIC)
+				.with(BOLD))
+				.isEqualTo(BOLD, ITALIC);
+
+		// Formatting.Combined.with(Formatting.Combined)
+		assertThat(new Formatting.Combined()
+				.with(new Formatting.Combined(BOLD, ITALIC)))
+				.isEqualTo(BOLD, ITALIC);
+
+		// All formatting.
+		assertThat(new Formatting.Combined()
+				.with(BOLD, ITALIC, OBFUSCATED, RESET, STRIKETHROUGH, UNDERLINED))
+				.isEqualTo(BOLD, ITALIC, OBFUSCATED, RESET, STRIKETHROUGH, UNDERLINED);
 	}
-	
+
+
 	/**
-	 * Test combined formatting.
+	 * Test combined formatting styles using the `without` methods.
 	 */
 	@Test
-	void combinedWithout() {
-		assertThat(Formatting.BOLD.with(Formatting.ITALIC).without(Formatting.ITALIC))
-				.isEqualTo(Formatting.BOLD);
+	void testCombinedWithout() {
+		Formatting.Combined ALL = new Formatting.Combined(Formatting.values().toArray(new Formatting[0]));
+		
+		// Formatting.Combined.without(Formatting)
+		assertThat(ALL.without(RESET))
+				.isEqualTo(BOLD, ITALIC, OBFUSCATED, STRIKETHROUGH, UNDERLINED);
 
-		assertThat(Formatting.BOLD.with(Formatting.ITALIC).without(Formatting.ITALIC.with(Formatting.BOLD)))
-				.isEqualTo();
+		// Formatting.Combined.without(Formatting...)
+		assertThat(ALL.without(RESET, UNDERLINED))
+				.isEqualTo(BOLD, ITALIC, OBFUSCATED, STRIKETHROUGH);
 
-		assertThat(Formatting.BOLD.with(Formatting.RESET, Formatting.ITALIC).without(Formatting.ITALIC, Formatting.RESET))
-				.isEqualTo(Formatting.BOLD);
+		// Formatting.Combined.without(Formatting.Combined)
+		assertThat(ALL.without(new Formatting.Combined(RESET, UNDERLINED)))
+				.isEqualTo(BOLD, ITALIC, OBFUSCATED, STRIKETHROUGH);
+
+		// Remove all.
+		assertThat(ALL.without(ALL)).isEqualTo();
 	}
-	
+
 	/**
-	 * Test combined has.
+	 * Test combined formatting styles using the `has` methods.
 	 */
 	@Test
-	void combinedHas() {
-		assertThat(Formatting.BOLD.with(Formatting.ITALIC).has(Formatting.BOLD))
-				.isTrue();
+	void testCombinedHas() {
+		assertThat(new Formatting.Combined(Formatting.values().toArray(new Formatting[0])))
+				.hasStyle(RESET)
+				.hasStyle(BOLD)
+				.hasStyle(UNDERLINED)
+				.hasStyle(ITALIC)
+				.hasStyle(OBFUSCATED)
+				.hasStyle(STRIKETHROUGH);			
 
-		assertThat(Formatting.BOLD.with(Formatting.ITALIC).has(Formatting.RESET))
-				.isFalse();
+		assertThat(new Formatting.Combined())
+				.withoutStyle(RESET)
+				.withoutStyle(BOLD)
+				.withoutStyle(UNDERLINED)
+				.withoutStyle(ITALIC)
+				.withoutStyle(OBFUSCATED)
+				.withoutStyle(STRIKETHROUGH);
 	}
-	
+
 	/**
 	 * Test that the {@link Formatting#toLegacyString()} function works.
 	 */
-	void legacyString() {
-		assertThat(Formatting.OBFUSCATED.toLegacyString())
+	void testLegacyString() {
+		assertThat(OBFUSCATED.toLegacyString())
 				.isEqualTo("\u00A7k");
+	}
+
+	/**
+	 * Test that the {@link Formatting.Combined#toLegacyString()} function works.
+	 */
+	void testCombinedLegacyString() {
+		assertThat(new Formatting.Combined(RESET, OBFUSCATED, STRIKETHROUGH, UNDERLINED, ITALIC, BOLD).toLegacyString())
+				.isEqualTo("\u00A7k\u00A7k\u00A7l\u00A7m\u00A7n\u00A7o");
+
+		assertThat(new Formatting.Combined(BOLD, ITALIC).toLegacyString())
+				.isEqualTo("\u00A7k\u00A7l");
 	}
 
 }
