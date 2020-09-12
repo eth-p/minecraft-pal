@@ -114,21 +114,59 @@ public class FormattingTests {
 	 * Test combined formatting.
 	 */
 	@Test
-	void combined() {
+	void combinedWith() {
 		assertThat(Formatting.BOLD.with(Formatting.ITALIC))
 				.isEqualTo(Formatting.BOLD, Formatting.ITALIC);
-
-		assertThat(Formatting.BOLD.with(Formatting.ITALIC).without(Formatting.ITALIC))
-				.isEqualTo(Formatting.BOLD);
 		
-		assertThat(Formatting.BOLD.with(Formatting.ITALIC).without(Formatting.ITALIC.with(Formatting.BOLD)))
-				.isEqualTo();
-
 		assertThat(Formatting.BOLD.with(Formatting.ITALIC).with(Formatting.OBFUSCATED))
 				.isEqualTo(Formatting.BOLD, Formatting.ITALIC, Formatting.OBFUSCATED);
 		
 		assertThat(Formatting.BOLD.with(Formatting.ITALIC).with(Formatting.RESET))
-				.isEqualTo(Formatting.RESET);
+				.isEqualTo(Formatting.RESET, Formatting.ITALIC, Formatting.BOLD);
+		
+		assertThat(Formatting.BOLD.with(Formatting.RESET).with(Formatting.ITALIC, Formatting.UNDERLINED))
+				.isEqualTo(Formatting.BOLD, Formatting.RESET, Formatting.ITALIC, Formatting.UNDERLINED);
+
+		assertThat(Formatting.BOLD.with(
+				Formatting.ITALIC,
+				Formatting.OBFUSCATED,
+				Formatting.RESET,
+				Formatting.STRIKETHROUGH,
+				Formatting.UNDERLINED
+			))
+				.hasStyle(Formatting.BOLD)
+				.hasStyle(Formatting.ITALIC)
+				.hasStyle(Formatting.OBFUSCATED)
+				.hasStyle(Formatting.RESET)
+				.hasStyle(Formatting.STRIKETHROUGH)
+				.hasStyle(Formatting.UNDERLINED);
+	}
+	
+	/**
+	 * Test combined formatting.
+	 */
+	@Test
+	void combinedWithout() {
+		assertThat(Formatting.BOLD.with(Formatting.ITALIC).without(Formatting.ITALIC))
+				.isEqualTo(Formatting.BOLD);
+
+		assertThat(Formatting.BOLD.with(Formatting.ITALIC).without(Formatting.ITALIC.with(Formatting.BOLD)))
+				.isEqualTo();
+
+		assertThat(Formatting.BOLD.with(Formatting.RESET, Formatting.ITALIC).without(Formatting.ITALIC, Formatting.RESET))
+				.isEqualTo(Formatting.BOLD);
+	}
+	
+	/**
+	 * Test combined has.
+	 */
+	@Test
+	void combinedHas() {
+		assertThat(Formatting.BOLD.with(Formatting.ITALIC).has(Formatting.BOLD))
+				.isTrue();
+
+		assertThat(Formatting.BOLD.with(Formatting.ITALIC).has(Formatting.RESET))
+				.isFalse();
 	}
 	
 	/**

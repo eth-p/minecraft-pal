@@ -60,7 +60,7 @@ final class Formatting {
 	infix fun with(other: Combined): Combined {
 		return other with this
 	}
-	
+
 	/**
 	 * Gets the formatting style as a legacy Minecraft text string.
 	 *
@@ -123,7 +123,6 @@ final class Formatting {
 		 */
 		@Export
 		infix fun with(style: Formatting): Combined {
-			if (style == RESET) return Combined(RESET)
 			return Combined(this.bitfield or style.mask)
 		}
 
@@ -136,7 +135,6 @@ final class Formatting {
 		 */
 		@Export
 		infix fun with(style: Combined): Combined {
-			if (style.has(RESET)) return Combined(RESET)
 			return Combined(this.bitfield or style.bitfield)
 		}
 
@@ -153,9 +151,9 @@ final class Formatting {
 		}
 
 		/**
-		 * Creates a formatting style without another style in it.
+		 * Creates a formatting style without other styles in it.
 		 *
-		 * @param style The style to remove.
+		 * @param style The styles to remove.
 		 * @return The new combined formatting style.
 		 * @since 1.0
 		 */
