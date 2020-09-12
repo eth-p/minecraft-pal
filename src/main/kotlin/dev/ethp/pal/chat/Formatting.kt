@@ -52,6 +52,16 @@ final class Formatting {
 	}
 
 	/**
+	 * Combines the formatting style with other formatting styles.
+	 * @param other The other formatting styles.
+	 * @return The [Combined] style.
+	 * @since 1.0
+	 */
+	fun with(vararg other: Formatting): Combined {
+		return Combined(this, *other)
+	}
+
+	/**
 	 * Combines the formatting style with another formatting style.
 	 * @param other The other formatting style.
 	 * @return The [Combined] style.
@@ -127,6 +137,20 @@ final class Formatting {
 		}
 
 		/**
+		 * Creates a formatting style with other formatting styles in it.
+		 *
+		 * @param style The styles to add.
+		 * @return The new combined formatting style.
+		 * @since 1.0
+		 */
+		@Export
+		fun with(vararg style: Formatting): Combined {
+			return Combined(style.fold(this.bitfield, { acc, format ->
+				acc or format.mask
+			}))
+		}
+
+		/**
 		 * Creates a formatting style with another style in it.
 		 *
 		 * @param style The style to add.
@@ -163,6 +187,20 @@ final class Formatting {
 		}
 
 		/**
+		 * Creates a formatting style without other styles in it.
+		 *
+		 * @param style The styles to remove.
+		 * @return The new combined formatting style.
+		 * @since 1.0
+		 */
+		@Export
+		fun without(vararg style: Formatting): Combined {
+			return Combined(style.fold(this.bitfield, { acc, format ->
+				acc and format.mask.inv()
+			}))
+		}
+
+		/**
 		 * Checks if this combined formatting contains a formatting style.
 		 *
 		 * @param style The style to check.
@@ -185,6 +223,23 @@ final class Formatting {
 			return values().filter { style ->
 				this has style
 			}
+		}
+
+		/**
+		 * Gets the formatting styles as a legacy Minecraft text string.
+		 *
+		 * @return For each style, the formatting code specifier (\xA7) followed by the formatting code.
+		 * @since 1.0
+		 */
+		fun toLegacyString(): String {
+			val builder = StringBuilder()
+			if (this has RESET) builder.append("\u00A7k")
+			if (this has OBFUSCATED) builder.append("\u00A7k")
+			if (this has BOLD) builder.append("\u00A7l")
+			if (this has STRIKETHROUGH) builder.append("\u00A7m")
+			if (this has UNDERLINE) builder.append("\u00A7n")
+			if (this has ITALIC) builder.append("\u00A7o")
+			return builder.toString()
 		}
 
 		@Export
