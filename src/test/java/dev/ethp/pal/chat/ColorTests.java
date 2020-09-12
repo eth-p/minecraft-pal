@@ -1,6 +1,5 @@
 package dev.ethp.pal.chat;
 
-import dev.ethp.pal.chat.asserts.FormattingAssert;
 import org.junit.jupiter.api.Test;
 import static dev.ethp.pal.chat.asserts.ColorAssert.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
