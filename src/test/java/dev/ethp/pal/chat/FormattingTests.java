@@ -234,6 +234,7 @@ public class FormattingTests {
 	/**
 	 * Test that the {@link Formatting#toLegacyString()} function works.
 	 */
+	@Test
 	void testLegacyString() {
 		assertThat(OBFUSCATED.toLegacyString())
 				.isEqualTo("\u00A7k");
@@ -242,12 +243,13 @@ public class FormattingTests {
 	/**
 	 * Test that the {@link Formatting.Combined#toLegacyString()} function works.
 	 */
+	@Test
 	void testCombinedLegacyString() {
 		assertThat(new Formatting.Combined(RESET, OBFUSCATED, STRIKETHROUGH, UNDERLINED, ITALIC, BOLD).toLegacyString())
 				.isEqualTo("\u00A7k\u00A7k\u00A7l\u00A7m\u00A7n\u00A7o");
 
 		assertThat(new Formatting.Combined(BOLD, ITALIC).toLegacyString())
-				.isEqualTo("\u00A7k\u00A7l");
+				.isEqualTo("\u00A7l\u00A7o");
 	}
 
 }

@@ -227,6 +227,7 @@ public class ColorTests {
 	/**
 	 * Test that the {@link Color#toLegacyString()} function works.
 	 */
+	@Test
 	void testLegacyString() {
 		assertThat(BLACK.toLegacyString())
 				.isEqualTo("\u00A70");
