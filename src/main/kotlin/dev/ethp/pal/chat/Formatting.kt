@@ -19,7 +19,7 @@ final class Formatting {
 
 	private constructor(code: Char, property: String, mask: Short) {
 		this.code = code
-		this.property = property
+		this.name = property
 		this.mask = mask
 	}
 
@@ -31,10 +31,11 @@ final class Formatting {
 	val code: Char
 
 	/**
-	 * The JSON property name for this formatting code.
+	 * The name of the formatting style.
 	 * @since 1.0
 	 */
-	internal val property: String
+	@Export
+	val name: String
 
 	/**
 	 * A bitmask used for compressing formatting codes together.
@@ -90,7 +91,7 @@ final class Formatting {
 
 	@Export
 	override fun toString(): String {
-		return this.property
+		return this.name
 	}
 
 	@Export
@@ -121,7 +122,7 @@ final class Formatting {
 		constructor(style: Formatting) {
 			this.bitfield = style.mask
 		}
-		
+
 		/**
 		 * Creates a new combined formatting style.
 		 *

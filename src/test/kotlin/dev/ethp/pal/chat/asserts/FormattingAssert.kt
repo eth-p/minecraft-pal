@@ -1,5 +1,6 @@
 package dev.ethp.pal.chat.asserts
 
+import dev.ethp.pal.chat.Color
 import dev.ethp.pal.chat.Formatting
 import org.assertj.core.api.AbstractAssert
 
@@ -20,6 +21,24 @@ class FormattingAssert(actual: Formatting?) : AbstractAssert<FormattingAssert?, 
 			failWithMessage("""
 				Expecting:  '$expected'
 				Actual:     '${actual.code}'
+			""".trimIndent().trim())
+		}
+		return this
+	}
+
+
+	/**
+	 * Assert that the color has a specific name.
+	 *
+	 * @param expected The expected RGB.
+	 * @return Self, for chaining.
+	 */
+	fun hasName(expected: String): FormattingAssert {
+		isNotNull()
+		if (actual!!.name != expected) {
+			failWithMessage("""
+				Expecting:  $expected
+				Actual:     ${actual.name}
 			""".trimIndent().trim())
 		}
 		return this

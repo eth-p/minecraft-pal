@@ -252,5 +252,20 @@ public class FormattingTests {
 				.isEqualTo("\u00A7l\u00A7o");
 	}
 
+
+	/**
+	 * Test that the {@link Formatting#getName()} function works.
+	 */
+	@Test
+	void testName() {
+		assertThat(RESET).hasName("reset");
+		assertThat(OBFUSCATED).hasName("obfuscated");
+		assertThat(STRIKETHROUGH).hasName("strikethrough");
+		assertThat(UNDERLINED).hasName("underlined");
+		assertThat(ITALIC).hasName("italic");
+		assertThat(BOLD).hasName("bold");
+	}
+
+
 }
 
