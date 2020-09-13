@@ -234,6 +234,57 @@ public class ColorTests {
 	}
 
 	/**
+	 * Test that the {@link Color#getName()} function works.
+	 */
+	@Test
+	void testName() {
+		assertThat(BLACK).hasName("black");
+		assertThat(DARK_BLUE).hasName("dark_blue");
+		assertThat(DARK_GREEN).hasName("dark_green");
+		assertThat(DARK_AQUA).hasName("dark_aqua");
+		assertThat(DARK_RED).hasName("dark_red");
+		assertThat(DARK_PURPLE).hasName("dark_purple");
+		assertThat(GOLD).hasName("gold");
+		assertThat(GRAY).hasName("gray");
+		assertThat(DARK_GRAY).hasName("dark_gray");
+		assertThat(BLUE).hasName("blue");
+		assertThat(GREEN).hasName("green");
+		assertThat(AQUA).hasName("aqua");
+		assertThat(RED).hasName("red");
+		assertThat(LIGHT_PURPLE).hasName("light_purple");
+		assertThat(YELLOW).hasName("yellow");
+		assertThat(WHITE).hasName("white");
+
+		assertThat(rgb(0xF3AB10)).hasName("#f3ab10");
+	}
+	
+	/**
+	 * Test that the {@link Color#getLegacyName()} function works.
+	 */
+	@Test
+	void testLegacyName() {
+		assertThat(BLACK).hasLegacyName("black");
+		assertThat(DARK_BLUE).hasLegacyName("dark_blue");
+		assertThat(DARK_GREEN).hasLegacyName("dark_green");
+		assertThat(DARK_AQUA).hasLegacyName("dark_aqua");
+		assertThat(DARK_RED).hasLegacyName("dark_red");
+		assertThat(DARK_PURPLE).hasLegacyName("dark_purple");
+		assertThat(GOLD).hasLegacyName("gold");
+		assertThat(GRAY).hasLegacyName("gray");
+		assertThat(DARK_GRAY).hasLegacyName("dark_gray");
+		assertThat(BLUE).hasLegacyName("blue");
+		assertThat(GREEN).hasLegacyName("green");
+		assertThat(AQUA).hasLegacyName("aqua");
+		assertThat(RED).hasLegacyName("red");
+		assertThat(LIGHT_PURPLE).hasLegacyName("light_purple");
+		assertThat(YELLOW).hasLegacyName("yellow");
+		assertThat(WHITE).hasLegacyName("white");
+
+		assertThat(rgb(0x131313)).hasLegacyName("black");
+		assertThat(rgb(0xEAEAEA)).hasLegacyName("white");
+	}
+	
+	/**
 	 * Test that RGB to legacy code color quantization is working as expected.
 	 */
 	@Test

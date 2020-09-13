@@ -18,10 +18,11 @@ final class Color {
 	// Class:
 	// -------------------------------------------------------------------------------------------------------------
 
-	private constructor(rgb: Int) : this('\u0000', rgb)
-	private constructor(code: Char, rgb: Int) {
+	private constructor(rgb: Int) : this('\u0000', rgb, null)
+	private constructor(code: Char, rgb: Int, property: String?) {
 		this.rgb = rgb
 		this._char = code
+		this._property = property
 	}
 
 	/**
@@ -46,6 +47,34 @@ final class Color {
 		}
 
 	private var _char: Char
+
+	/**
+	 * The JSON property name for this color code.
+	 * @since 1.0
+	 */
+	private val _property: String?
+
+	/**
+	 * The name of the color.
+	 * @since 1.0
+	 */
+	val name: String
+		@Export
+		get() {
+			if (this._property != null) return this._property
+			return String.format("#%06x", this.rgb)
+		}
+
+	/**
+	 * The legacy name of the color, performing color quantization if necessary.
+	 * @since 1.0
+	 */
+	val legacyName: String
+		@Export
+		get() {
+			if (this._property != null) return this._property
+			return codeUnsafe(this.code)._property!!
+		}
 
 	/**
 	 * Checks if the color is a legacy color.
@@ -228,7 +257,7 @@ final class Color {
 		 */
 		@JvmField
 		@Export
-		val BLACK: Color = Color('0', 0x000000)
+		val BLACK: Color = Color('0', 0x000000, "black")
 
 		/**
 		 * Dark blue chat color.
@@ -238,7 +267,7 @@ final class Color {
 		 */
 		@JvmField
 		@Export
-		val DARK_BLUE: Color = Color('1', 0x0000AA)
+		val DARK_BLUE: Color = Color('1', 0x0000AA, "dark_blue")
 
 		/**
 		 * Dark green chat color.
@@ -248,7 +277,7 @@ final class Color {
 		 */
 		@JvmField
 		@Export
-		val DARK_GREEN: Color = Color('2', 0x00AA00)
+		val DARK_GREEN: Color = Color('2', 0x00AA00, "dark_green")
 
 		/**
 		 * Dark aqua chat color.
@@ -258,7 +287,7 @@ final class Color {
 		 */
 		@JvmField
 		@Export
-		val DARK_AQUA: Color = Color('3', 0x00AAAA)
+		val DARK_AQUA: Color = Color('3', 0x00AAAA, "dark_aqua")
 
 		/**
 		 * Dark red chat color.
@@ -268,7 +297,7 @@ final class Color {
 		 */
 		@JvmField
 		@Export
-		val DARK_RED: Color = Color('4', 0xAA0000)
+		val DARK_RED: Color = Color('4', 0xAA0000, "dark_red")
 
 		/**
 		 * Dark purple chat color.
@@ -278,7 +307,7 @@ final class Color {
 		 */
 		@JvmField
 		@Export
-		val DARK_PURPLE: Color = Color('5', 0xAA00AA)
+		val DARK_PURPLE: Color = Color('5', 0xAA00AA, "dark_purple")
 
 		/**
 		 * Dark purple chat color.
@@ -288,7 +317,7 @@ final class Color {
 		 */
 		@JvmField
 		@Export
-		val GOLD: Color = Color('6', 0xFFAA00)
+		val GOLD: Color = Color('6', 0xFFAA00, "gold")
 
 		/**
 		 * Gray chat color.
@@ -298,7 +327,7 @@ final class Color {
 		 */
 		@JvmField
 		@Export
-		val GRAY: Color = Color('7', 0xAAAAAA)
+		val GRAY: Color = Color('7', 0xAAAAAA, "gray")
 
 		/**
 		 * Dark gray chat color.
@@ -308,7 +337,7 @@ final class Color {
 		 */
 		@JvmField
 		@Export
-		val DARK_GRAY: Color = Color('8', 0x555555)
+		val DARK_GRAY: Color = Color('8', 0x555555, "dark_gray")
 
 		/**
 		 * Blue chat color.
@@ -318,7 +347,7 @@ final class Color {
 		 */
 		@JvmField
 		@Export
-		val BLUE: Color = Color('9', 0x5555FF)
+		val BLUE: Color = Color('9', 0x5555FF, "blue")
 
 		/**
 		 * Blue chat color.
@@ -328,7 +357,7 @@ final class Color {
 		 */
 		@JvmField
 		@Export
-		val GREEN: Color = Color('a', 0x55FF55)
+		val GREEN: Color = Color('a', 0x55FF55, "green")
 
 		/**
 		 * Aqua chat color.
@@ -338,7 +367,7 @@ final class Color {
 		 */
 		@JvmField
 		@Export
-		val AQUA: Color = Color('b', 0x55FFFF)
+		val AQUA: Color = Color('b', 0x55FFFF, "aqua")
 
 		/**
 		 * Red chat color.
@@ -348,7 +377,7 @@ final class Color {
 		 */
 		@JvmField
 		@Export
-		val RED: Color = Color('c', 0xFF5555)
+		val RED: Color = Color('c', 0xFF5555, "red")
 
 		/**
 		 * Light purple chat color.
@@ -358,7 +387,7 @@ final class Color {
 		 */
 		@JvmField
 		@Export
-		val LIGHT_PURPLE: Color = Color('d', 0xFF55FF)
+		val LIGHT_PURPLE: Color = Color('d', 0xFF55FF, "light_purple")
 
 		/**
 		 * Pink purple chat color.
@@ -378,7 +407,7 @@ final class Color {
 		 */
 		@JvmField
 		@Export
-		val YELLOW: Color = Color('e', 0xFFFF55)
+		val YELLOW: Color = Color('e', 0xFFFF55, "yellow")
 
 		/**
 		 * White chat color.
@@ -388,7 +417,7 @@ final class Color {
 		 */
 		@JvmField
 		@Export
-		val WHITE: Color = Color('f', 0xFFFFFF)
+		val WHITE: Color = Color('f', 0xFFFFFF, "white")
 
 		// ----------------------------------------
 		// endregion
@@ -422,8 +451,8 @@ final class Color {
 		 */
 		@JvmStatic
 		fun values(): List<Color> {
-			return LEGACY_TABLE.asList().map {
-				legacyColor -> legacyColor.color
+			return LEGACY_TABLE.asList().map { legacyColor ->
+				legacyColor.color
 			}
 		}
 
