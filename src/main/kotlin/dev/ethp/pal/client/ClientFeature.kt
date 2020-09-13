@@ -1,8 +1,8 @@
-package dev.ethp.pal.player
+package dev.ethp.pal.client
 
 import dev.ethp.apistub.Export
 import dev.ethp.pal.util.Version
-import dev.ethp.pal.util.Version.Companion.parse
+import dev.ethp.pal.util.Version.Companion.parseUnsafe
 
 /**
  * An enum of supported client features.
@@ -19,7 +19,7 @@ enum class ClientFeature(private val min: Version) {
 	 * @since 1.0
 	 */
 	@Export
-	TEXT_RGB(parse("1.16")),
+	TEXT_RGB(parseUnsafe("1.16")),
 
 	/**
 	 * The client supports namespaced identifiers.
@@ -28,7 +28,7 @@ enum class ClientFeature(private val min: Version) {
 	 * @since 1.0
 	 */
 	@Export
-	NAMESPACED_IDS(parse("1.13"));
+	NAMESPACED_IDS(parseUnsafe("1.13"));
 
 	/**
 	 * Checks if a Minecraft version supports this feature.
@@ -39,7 +39,7 @@ enum class ClientFeature(private val min: Version) {
 	 * @since 1.0
 	 */
 	@Export
-	infix fun supports(version: Version): Boolean {
+	infix fun appliesTo(version: Version): Boolean {
 		return version >= this.min
 	}
 

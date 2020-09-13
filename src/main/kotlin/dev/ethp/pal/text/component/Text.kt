@@ -6,8 +6,8 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
 import dev.ethp.apistub.Export
 import dev.ethp.pal._internal.gson
-import dev.ethp.pal.player.Client
-import dev.ethp.pal.player.ClientFeature.TEXT_RGB
+import dev.ethp.pal.client.Client
+import dev.ethp.pal.client.ClientFeature.TEXT_RGB
 import dev.ethp.pal.text.Color
 import dev.ethp.pal.text.Formatting
 import dev.ethp.pal.text.Formatting.Companion.BOLD

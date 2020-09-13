@@ -1,7 +1,7 @@
 package dev.ethp.pal.text.component.asserts
 
 import com.google.gson.JsonElement
-import dev.ethp.pal.player.Client
+import dev.ethp.pal.client.Client
 import dev.ethp.pal.text.Color
 import dev.ethp.pal.text.Formatting
 import dev.ethp.pal.text.component.Text

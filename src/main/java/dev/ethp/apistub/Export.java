@@ -15,6 +15,6 @@ public @interface Export {
 	/**
 	 * Only export when a condition has been met.
 	 */
-	String when = null;
+	String value() default "";
 	
 }

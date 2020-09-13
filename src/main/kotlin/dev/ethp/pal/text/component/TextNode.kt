@@ -7,7 +7,7 @@ import com.google.gson.JsonPrimitive
 import dev.ethp.apistub.Export
 import dev.ethp.pal.text.Color
 import dev.ethp.pal.text.Formatting
-import dev.ethp.pal.player.Client
+import dev.ethp.pal.client.Client
 
 /**
  * A basic text node.

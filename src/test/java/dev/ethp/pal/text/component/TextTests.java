@@ -3,7 +3,7 @@ package dev.ethp.pal.text.component;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import dev.ethp.pal.player.Client;
+import dev.ethp.pal.client.Client;
 import dev.ethp.pal.text.Color;
 import org.junit.jupiter.api.Test;
 import static dev.ethp.pal.text.Color.*;

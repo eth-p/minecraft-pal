@@ -1,4 +1,4 @@
-package dev.ethp.pal.player
+package dev.ethp.pal.client
 
 import dev.ethp.apistub.Export
 
@@ -32,7 +32,7 @@ open class Client(@Export open val language: String, @Export open val version: C
 	 */
 	@Export
 	infix fun supports(feature: ClientFeature): Boolean {
-		return feature supports this.version
+		return feature appliesTo this.version
 	}
 
 	companion object {
@@ -49,7 +49,7 @@ open class Client(@Export open val language: String, @Export open val version: C
 		 */
 		@Export
 		@JvmField
-		val DEFAULT_1_16_0 = Client("en_US", ClientVersion.parse("1.16.0"))
+		val DEFAULT_1_16_0 = Client("en_US", ClientVersion.parseUnsafe("1.16.0"))
 
 		/**
 		 * The minecraft client for `1.15.0`.
@@ -58,7 +58,7 @@ open class Client(@Export open val language: String, @Export open val version: C
 		 */
 		@Export
 		@JvmField
-		val DEFAULT_1_15_0 = Client("en_US", ClientVersion.parse("1.15.0"))
+		val DEFAULT_1_15_0 = Client("en_US", ClientVersion.parseUnsafe("1.15.0"))
 
 		/**
 		 * The minecraft client for `1.14.0`.
@@ -67,7 +67,7 @@ open class Client(@Export open val language: String, @Export open val version: C
 		 */
 		@Export
 		@JvmField
-		val DEFAULT_1_14_0 = Client("en_US", ClientVersion.parse("1.14.0"))
+		val DEFAULT_1_14_0 = Client("en_US", ClientVersion.parseUnsafe("1.14.0"))
 
 		/**
 		 * The minecraft client for `1.13.0`.
@@ -76,7 +76,7 @@ open class Client(@Export open val language: String, @Export open val version: C
 		 */
 		@Export
 		@JvmField
-		val DEFAULT_1_13_0 = Client("en_US", ClientVersion.parse("1.13.0"))
+		val DEFAULT_1_13_0 = Client("en_US", ClientVersion.parseUnsafe("1.13.0"))
 		
 		// ----------------------------------------
 		// endregion
@@ -99,7 +99,7 @@ open class Client(@Export open val language: String, @Export open val version: C
 		 */
 		@Export
 		@JvmField
-		val COMPATIBLE = Client("en_US", ClientVersion.parse("1.14.0"))
+		val COMPATIBLE = Client("en_US", ClientVersion.parseUnsafe("1.14.0"))
 
 	}
 
