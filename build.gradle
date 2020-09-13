@@ -2,7 +2,10 @@ plugins {
     id 'java'
     id 'org.jetbrains.kotlin.jvm' version '1.4.0'
     id 'dev.ethp.bukkit' version '0.2.1'
+    id 'com.github.johnrengelman.shadow' version '6.0.0'
 }
+
+apply from: './config.gradle'
 
 dependencies {
     paperApi()
@@ -13,19 +16,33 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
 }
 
-group 'dev.ethp.pal'
-version = '1.0'
+group = meta.group
+version = meta.version
 
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
+sourceCompatibility = meta.java
+targetCompatibility = meta.java
 
 test {
     useJUnitPlatform()
 }
 
+jar {
+    archiveClassifier = 'no-runtime'
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = meta.java
+}
+
+shadowJar {
+//    archiveClassifier = 'bukkit'
+    archiveClassifier = null
+}
+
 bukkit {
     name rootProject.name
     main 'dev.ethp.pal.bukkit.PluginAbstractionLibrary'
+    version meta.version
 
     description 'A plugin that provides various utilities for my other plugins.'
 
@@ -39,3 +56,5 @@ bukkit {
         description 'See info about plugin abstraction library.'
     }
 }
+
+build.dependsOn 'shadowJar'

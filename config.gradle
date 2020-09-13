@@ -1,0 +1,10 @@
+ext {
+	meta = [:]
+
+	meta.group    = 'dev.ethp.pal'
+	meta.name     = 'minecraft-pal'
+	meta.github   = 'https://github.com/eth-p/minecraft-pal'
+	meta.version  = '1.0'
+	
+	meta.java     = '1.8'
+}
