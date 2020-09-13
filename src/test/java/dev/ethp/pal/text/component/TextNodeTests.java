@@ -1,5 +1,7 @@
 package dev.ethp.pal.text.component;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import dev.ethp.pal.text.Formatting;
 import org.junit.jupiter.api.Test;
 import static dev.ethp.pal.text.Color.GREEN;
@@ -44,7 +46,7 @@ public class TextNodeTests {
 				.isText("Test 4")
 				.isColor(RED)
 				.isStyle(BOLD, OBFUSCATED);
-		
+
 		// Text(String, Formatting, Color)
 		assertThat(new TextNode("Test 5", BOLD, RED))
 				.isText("Test 5")
@@ -79,8 +81,17 @@ public class TextNodeTests {
 	 */
 	@Test
 	void testJson() {
-		assertThat(new TextNode("Test", RED).toLegacyString())
-				.isEqualTo("\u00A7c\u00A7l\u00A7oTest");
+		assertThat(new TextNode("Test", RED, BOLD))
+				.isJsonEqualTo(null, () -> {
+					JsonObject obj = new JsonObject();
+					obj.add("color", new JsonPrimitive("red"));
+					obj.add("bold", new JsonPrimitive(true));
+					obj.add("text", new JsonPrimitive("Test"));
+					return obj;
+				});
+
+		assertThat(new TextNode("Test"))
+				.isJsonEqualTo(null, () -> new JsonPrimitive("Test"));
 	}
 
 

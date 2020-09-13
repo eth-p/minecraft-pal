@@ -8,7 +8,7 @@ import org.assertj.core.api.AbstractAssert
 /**
  * Assertions for [TextNode].
  */
-class TextNodeAssert(actual: TextNode?) : TextAssert<TextNodeAssert, TextNode>(actual, TextNode::class.java) {
+class TextNodeAssert(actual: TextNode?) : TextAssert<TextNodeAssert, TextNode>(actual, TextNodeAssert::class.java) {
 	
 	/**
 	 * Assert that the text is equal to another text.

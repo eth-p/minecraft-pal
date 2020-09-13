@@ -28,7 +28,7 @@ test {
 }
 
 jar {
-    archiveClassifier = 'no-runtime'
+    archiveClassifier = 'bukkit-no-runtime'
 }
 
 compileKotlin {
@@ -36,8 +36,8 @@ compileKotlin {
 }
 
 shadowJar {
-//    archiveClassifier = 'bukkit'
-    archiveClassifier = null
+    archiveClassifier = 'bukkit'
+//    archiveClassifier = null
 }
 
 bukkit {
