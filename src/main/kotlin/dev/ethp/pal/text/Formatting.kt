@@ -8,6 +8,7 @@ import kotlin.experimental.inv
 
 /**
  * A Minecraft text formatting style.
+ * 
  * @since 1.0
  */
 @Export
@@ -80,7 +81,7 @@ final class Formatting {
 	 */
 	@Export
 	fun toLegacyString(): String {
-		return "\u00A7${this.code}"
+		return "${SPECIFIER}${this.code}"
 	}
 
 	@Export
@@ -245,12 +246,12 @@ final class Formatting {
 		 */
 		fun toLegacyString(): String {
 			val builder = StringBuilder()
-			if (this has RESET) builder.append("\u00A7k")
-			if (this has OBFUSCATED) builder.append("\u00A7k")
-			if (this has BOLD) builder.append("\u00A7l")
-			if (this has STRIKETHROUGH) builder.append("\u00A7m")
-			if (this has UNDERLINE) builder.append("\u00A7n")
-			if (this has ITALIC) builder.append("\u00A7o")
+			if (this has RESET) builder.append("${SPECIFIER}k")
+			if (this has OBFUSCATED) builder.append("${SPECIFIER}k")
+			if (this has BOLD) builder.append("${SPECIFIER}l")
+			if (this has STRIKETHROUGH) builder.append("${SPECIFIER}m")
+			if (this has UNDERLINE) builder.append("${SPECIFIER}n")
+			if (this has ITALIC) builder.append("${SPECIFIER}o")
 			return builder.toString()
 		}
 
@@ -277,7 +278,20 @@ final class Formatting {
 	companion object {
 
 		// ----------------------------------------
-		// region: Codes
+		// region: Specifier
+		// ----------------------------------------
+
+		/**
+		 * The legacy chat color specifier character.
+		 *
+		 * @since 1.0
+		 */
+		internal const val SPECIFIER: Char = '\u00A7'
+
+
+		// ----------------------------------------
+		// endregion
+		// region: Styles
 		// ----------------------------------------
 
 		/**
@@ -288,6 +302,7 @@ final class Formatting {
 		 *
 		 * @param code The code character.
 		 * @return The corresponding [Formatting] object.
+		 * 
 		 * @since 1.0
 		 */
 		@JvmStatic
@@ -301,11 +316,13 @@ final class Formatting {
 		 * This will throw on invalid styles.
 		 *
 		 * This does *not* support color codes.
-		 * See [Color] for formatting codes.
+		 * See [Color] for color codes.
 		 *
 		 * @param code The code character.
 		 * @return The corresponding [Formatting] object.
+		 * 
 		 * @throws IllegalArgumentException When provided an invalid formatting code.
+		 * 
 		 * @since 1.0
 		 */
 		@JvmStatic
@@ -321,6 +338,7 @@ final class Formatting {
 		 *
 		 * @param name The legacy formatting name (case insensitive).
 		 * @return The corresponding [Formatting] object.
+		 * 
 		 * @since 1.0
 		 */
 		@JvmStatic
@@ -335,7 +353,9 @@ final class Formatting {
 		 *
 		 * @param name The legacy formatting name (case insensitive).
 		 * @return The corresponding [Formatting] object.
+		 * 
 		 * @throws IllegalArgumentException When provided an invalid formatting name.
+		 * 
 		 * @since 1.0
 		 */
 		@JvmStatic
@@ -354,6 +374,7 @@ final class Formatting {
 		/**
 		 * Reset color and formatting.
 		 * Code: `&r`
+		 * 
 		 * @since 1.0
 		 */
 		@JvmField
@@ -363,6 +384,7 @@ final class Formatting {
 		/**
 		 * Bold formatting.
 		 * Code: `&l`
+		 * 
 		 * @since 1.0
 		 */
 		@JvmField
@@ -372,6 +394,7 @@ final class Formatting {
 		/**
 		 * Italic formatting.
 		 * Code: `&o`
+		 * 
 		 * @since 1.0
 		 */
 		@JvmField
@@ -381,6 +404,7 @@ final class Formatting {
 		/**
 		 * Strikethrough formatting.
 		 * Code: `&m`
+		 * 
 		 * @since 1.0
 		 */
 		@JvmField
@@ -390,6 +414,7 @@ final class Formatting {
 		/**
 		 * Underlined formatting.
 		 * Code: `&n`
+		 * 
 		 * @since 1.0
 		 */
 		@JvmField
@@ -399,6 +424,7 @@ final class Formatting {
 		/**
 		 * Underlined formatting.
 		 * Code: `&n`
+		 * 
 		 * @since 1.0
 		 */
 		@JvmField
@@ -408,6 +434,7 @@ final class Formatting {
 		/**
 		 * Obfuscated formatting.
 		 * Code: `&k`
+		 * 
 		 * @since 1.0
 		 */
 		@JvmField
@@ -417,6 +444,7 @@ final class Formatting {
 		/**
 		 * Obfuscated formatting.
 		 * Code: `&k`
+		 * 
 		 * @since 1.0
 		 */
 		@JvmField
@@ -440,6 +468,7 @@ final class Formatting {
 
 		/**
 		 * A list of all formatting styles.
+		 * 
 		 * @since 1.0
 		 */
 		@JvmStatic
