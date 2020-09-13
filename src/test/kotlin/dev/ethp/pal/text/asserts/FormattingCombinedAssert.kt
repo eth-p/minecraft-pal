@@ -1,7 +1,7 @@
-package dev.ethp.pal.chat.asserts
+package dev.ethp.pal.text.asserts
 
-import dev.ethp.pal.chat.Formatting
-import dev.ethp.pal.chat.Formatting.Combined
+import dev.ethp.pal.text.Formatting
+import dev.ethp.pal.text.Formatting.Combined
 import org.assertj.core.api.AbstractAssert
 import org.assertj.core.api.Assertions
 

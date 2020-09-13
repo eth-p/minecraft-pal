@@ -1,8 +1,7 @@
-package dev.ethp.pal.chat.asserts
+package dev.ethp.pal.text.asserts
 
-import dev.ethp.pal.chat.Color
-import dev.ethp.pal.chat.Color.Companion.rgb
-import org.assertj.core.api.Assertions.*
+import dev.ethp.pal.text.Color
+import dev.ethp.pal.text.Color.Companion.rgb
 import org.assertj.core.api.AbstractAssert
 
 /**

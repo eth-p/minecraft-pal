@@ -1,4 +1,4 @@
-package dev.ethp.pal.chat
+package dev.ethp.pal.text
 
 import dev.ethp.apistub.Export
 import dev.ethp.pal.math.ColorSpace

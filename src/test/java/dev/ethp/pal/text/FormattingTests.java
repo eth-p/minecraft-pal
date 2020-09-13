@@ -1,10 +1,10 @@
-package dev.ethp.pal.chat;
+package dev.ethp.pal.text;
 
 import org.junit.jupiter.api.Test;
-import static dev.ethp.pal.chat.asserts.FormattingAssert.assertThat;
-import static dev.ethp.pal.chat.asserts.FormattingCombinedAssert.assertThat;
+import static dev.ethp.pal.text.asserts.FormattingAssert.assertThat;
+import static dev.ethp.pal.text.asserts.FormattingCombinedAssert.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
-import static dev.ethp.pal.chat.Formatting.*;
+import static dev.ethp.pal.text.Formatting.*;
 
 public class FormattingTests {
 

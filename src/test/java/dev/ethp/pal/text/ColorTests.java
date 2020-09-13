@@ -1,9 +1,9 @@
-package dev.ethp.pal.chat;
+package dev.ethp.pal.text;
 
 import org.junit.jupiter.api.Test;
-import static dev.ethp.pal.chat.asserts.ColorAssert.assertThat;
+import static dev.ethp.pal.text.asserts.ColorAssert.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
-import static dev.ethp.pal.chat.Color.*;
+import static dev.ethp.pal.text.Color.*;
 
 public class ColorTests {
 
