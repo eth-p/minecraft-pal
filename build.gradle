@@ -1,61 +1,62 @@
 plugins {
     id 'java'
     id 'org.jetbrains.kotlin.jvm' version '1.4.0'
-    id 'dev.ethp.bukkit' version '0.2.1'
     id 'com.github.johnrengelman.shadow' version '6.0.0'
+    id 'org.jetbrains.dokka' version '1.4.10'
 }
 
 apply from: './config.gradle'
+apply from: './fix.gradle'
 
-dependencies {
-    paperApi()
+// Disable default tasks for root project.
+jar.enabled = false
+shadowJar.enabled = false
+javadoc.enabled = false
+
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Build:
+// ---------------------------------------------------------------------------------------------------------------------
+def platformBuildApiTasks = []
+def platformBuildJarTasks = []
+def platformBuildLibs = []
+
+meta.platforms.each {
+    platformBuildJarTasks.add(":platform-${it}:build")
+    platformBuildApiTasks.add(":platform-${it}:buildApi")
+    platformBuildLibs.add(new File(project(":platform-${it}").buildDir, 'libs'))
+}
+
+// Task that builds and copies the platform jars.
+task buildJars(dependsOn: platformBuildJarTasks, type: Copy) {
+    platformBuildLibs.each {
+        from it
+    }
     
-    // Tests
-    testImplementation 'org.assertj:assertj-core:3.11.1'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
-    testImplementation 'com.google.code.gson:gson:2.8.6'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
-}
-
-group = meta.group
-version = meta.version
-
-sourceCompatibility = meta.java
-targetCompatibility = meta.java
-
-test {
-    useJUnitPlatform()
-}
-
-jar {
-    archiveClassifier = 'bukkit-no-runtime'
-}
-
-compileKotlin {
-    kotlinOptions.jvmTarget = meta.java
-}
-
-shadowJar {
-    archiveClassifier = 'bukkit'
-//    archiveClassifier = null
-}
-
-bukkit {
-    name rootProject.name
-    main 'dev.ethp.pal.bukkit.PluginAbstractionLibrary'
-    version meta.version
-
-    description 'A plugin that provides various utilities for my other plugins.'
-
-    author 'eth-p'
-
-    api {
-        version '1.16.2'
-    }
-
-    command 'plugin-abstraction-library', {
-        description 'See info about plugin abstraction library.'
+    into new File(buildDir, 'libs')
+    
+    include '**/*-plugin.jar'
+    exclude '**/*-no-runtime.jar'
+    rename { String name ->
+        return name.replace('-plugin', '')
     }
 }
 
-build.dependsOn 'shadowJar'
+// Task that builds and copies the platform API jars.
+task buildApis(dependsOn: platformBuildApiTasks, type: Copy) {
+    platformBuildLibs.each {
+        from it
+    }
+
+    into new File(buildDir, 'libs')
+
+    exclude '**/*-plugin.jar'
+    exclude '**/*-no-runtime.jar'
+    rename { String name ->
+        return name.replace(meta.version, meta.version + "-api");
+    }
+}
+
+build.dependsOn 'buildJars'
+build.dependsOn 'buildApis'
+

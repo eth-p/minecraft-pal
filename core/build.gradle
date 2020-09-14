@@ -1,0 +1,25 @@
+plugins {
+    id 'java-library'
+    id 'org.jetbrains.kotlin.jvm'
+    id 'org.jetbrains.dokka'
+}
+
+apply from: '../config.gradle'
+apply from: '../build-common.gradle'
+
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Dependencies:
+// ---------------------------------------------------------------------------------------------------------------------
+dependencies {
+    implementation 'com.google.code.gson:gson:2.8.6'
+    testImplementation 'com.google.code.gson:gson:2.8.6'
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Kotlin:
+// ---------------------------------------------------------------------------------------------------------------------
+compileKotlin {
+    kotlinOptions.jvmTarget = meta.java
+}

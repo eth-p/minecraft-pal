@@ -1,0 +1,4 @@
+// Fixes errors from Kotlin plugin adding itself to every submodule.
+repositories {
+    jcenter()
+}

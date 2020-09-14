@@ -1,0 +1,65 @@
+// To be included by all subprojects.
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Project:
+// ---------------------------------------------------------------------------------------------------------------------
+group = meta.group
+version = meta.version
+
+sourceCompatibility = meta.java
+targetCompatibility = meta.java
+
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Dependencies:
+// ---------------------------------------------------------------------------------------------------------------------
+repositories {
+    jcenter() // Required by Kotlin
+}
+
+dependencies {
+    testImplementation 'org.assertj:assertj-core:3.11.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = meta.java
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Sources:
+// ---------------------------------------------------------------------------------------------------------------------
+sourceSets {
+    internal {
+        java {
+            compileClasspath += configurations.compileClasspath
+        }
+        kotlin {
+            compileClasspath += configurations.compileClasspath
+        }
+    }
+    main {
+        kotlin {
+            compileClasspath += internal.output
+        }
+    }
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Packaging:
+// ---------------------------------------------------------------------------------------------------------------------
+jar {
+    archivesBaseName = "pal-${project.name.startsWith("platform-") ? project.name.substring(9) : project.name}"
+    archiveClassifier = 'no-runtime'
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Testing:
+// ---------------------------------------------------------------------------------------------------------------------
+test {
+    useJUnitPlatform()
+}

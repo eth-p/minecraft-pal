@@ -1,2 +1,6 @@
 apply from: './config.gradle'
 rootProject.name = meta.name
+
+include('core')
+
+include('platform-bukkit')

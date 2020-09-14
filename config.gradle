@@ -1,10 +1,12 @@
 ext {
 	meta = [:]
 
+	meta.platforms = ['bukkit']
+	
 	meta.group    = 'dev.ethp.pal'
 	meta.name     = 'minecraft-pal'
 	meta.github   = 'https://github.com/eth-p/minecraft-pal'
-	meta.version  = '1.0'
+	meta.version  = '0.0.1-SNAPSHOT'
 	
 	meta.java     = '1.8'
 }

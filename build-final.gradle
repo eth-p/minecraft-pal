@@ -1,0 +1,121 @@
+def includes = [project, project(':core')]
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Build Platform Jar:
+// ---------------------------------------------------------------------------------------------------------------------
+shadowJar {
+	archiveClassifier = 'plugin'
+
+	from project(':core').sourceSets.internal.output
+	
+	exclude '**/*.kotlin_module'
+	exclude 'META-INF/versions/**/*.class'
+	
+	minimize {
+		include { file ->
+			!file.name.startsWith('dev.ethp.pal')
+		}
+	}
+	
+	dependencies {
+		include project(':core')
+		include { file ->
+			file.name.contains('kotlin-stdlib')
+		}
+	}
+	
+	relocate 'kotlin', 'dev.ethp.pal._internal.kotlin'
+}
+
+build.dependsOn 'shadowJar'
+
+
+// ---------------------------------------------------------------------------------------------------------------------
+// API Jar:
+// ---------------------------------------------------------------------------------------------------------------------
+task buildApi() {}
+
+apiJar {
+	archiveClassifier = null
+	from sourceSets.main.output
+	from project(':core').sourceSets.main.output
+	
+	dependencies {
+		include project(':core')
+	}
+}
+
+buildApi.dependsOn 'apiJar'
+
+
+// ---------------------------------------------------------------------------------------------------------------------
+// API Sources Jar:
+// ---------------------------------------------------------------------------------------------------------------------
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+	archiveClassifier = 'sources'
+	includes.each {
+		from it.sourceSets.main.allSource
+	}
+}
+
+buildApi.dependsOn 'sourcesJar'
+
+
+// ---------------------------------------------------------------------------------------------------------------------
+// API Javadoc Jar:
+// ---------------------------------------------------------------------------------------------------------------------
+
+dokkaJavadoc {
+	dokkaSourceSets {
+		main {
+			def sourceRoots = it.sourceRoots
+
+			includeNonPublic.set(true)
+
+			// Hack subprojects into the source set classpath.
+			// This will probably break in the future :)
+			includes.each { target ->
+				target.sourceSets.main {
+					sourceRoots.from(java.srcDirs)
+					sourceRoots.from(kotlin.srcDirs)
+				}
+			}
+		}
+	}
+}
+
+task javadocJar(type: Jar, dependsOn: dokkaJavadoc) {
+	archiveClassifier = 'javadoc'
+	from dokkaJavadoc.outputDirectory
+}
+
+	
+buildApi.dependsOn 'javadocJar'
+
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Publishing:
+// ---------------------------------------------------------------------------------------------------------------------
+
+publishing {
+	
+	publications {
+		maven(MavenPublication) { publication ->
+			project.shadow.component(publication)
+			
+			publication.artifacts = [apiJar, sourcesJar, /* javadocJar */] // Javadocs are a bit too broken to publish.
+			groupId = meta.group
+			artifactId = project.name.startsWith("platform-") ? project.name.substring(9) : project.name
+		}
+	}
+	
+	repositories {
+		mavenLocal()
+	}
+	
+}
+
+publishToMavenLocal.dependsOn 'apiJar'
+publishToMavenLocal.dependsOn 'javadocJar'
+publishToMavenLocal.dependsOn 'sourcesJar'
