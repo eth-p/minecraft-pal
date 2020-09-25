@@ -112,6 +112,18 @@ publishing {
 	
 	repositories {
 		mavenLocal()
+		if (env.isPresent('PUBLISH_MAVEN_REPO')) {
+			maven {
+				url = env.PUBLISH_MAVEN_REPO.value
+				credentials {
+					username env.PUBLISH_MAVEN_USERNAME.value
+					password env.PUBLISH_MAVEN_PASSWORD.value
+					authentication {
+						basic(BasicAuthentication)
+					}
+				}
+			}
+		}
 	}
 	
 }
