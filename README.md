@@ -3,15 +3,30 @@
 A library used by my plugins that contains common code.
 
 ## Usage
-`build.gradle`
+Inside `build.gradle`:
 
-## Documentations
-Dokka 1.4.* is currently in alpha, and some things will be broken.
-There isn't much that can be done about that, but the source files are all documented.
+```groovy
+repositories {
+    maven {
+        url "https://repo.rosewooddev.io/repository/public/"
+    }
+}
+
+dependencies {
+	compileOnly 'dev.ethp.pal:bukkit:0.0.1-SNAPSHOT'
+}
+```
+
+## Documentation
+Unfortunately, generating Javadocs from Kotlin using Dokka 1.4.0 is currently "alpha",
+and it doesn't properly generate docs for companion objects or for fields getters.
+
+If you need Javadocs, the best thing you can do is use the sources jar and hope your IDE supports Java completion of Kotlin code.
+
 
 ## Compiling
-This project uses Gradle to compile and package the artifacts.
-Run the following command to build the 
+Gradle is used to compile and package the artifacts.
+Run the following command to build the project:
 
 ```bash
 ./gradlew build
