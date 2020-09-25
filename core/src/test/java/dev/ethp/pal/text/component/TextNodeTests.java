@@ -1,70 +1,47 @@
 package dev.ethp.pal.text.component;
 
+import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import dev.ethp.pal.text.Formatting;
+import dev.ethp.pal.client.Client;
+import dev.ethp.pal.text.Color;
 import org.junit.jupiter.api.Test;
-import static dev.ethp.pal.text.Color.GREEN;
-import static dev.ethp.pal.text.Color.RED;
+import static dev.ethp.pal.text.Color.*;
 import static dev.ethp.pal.text.Formatting.*;
-import static dev.ethp.pal.text.component.asserts.TextNodeAssert.assertThat;
-import static org.assertj.core.api.Assertions.assertThat;
+import static dev.ethp.pal.text.component.TextNodeAssert.assertThat;
 
 public class TextNodeTests {
+
+	static private class ImplNode extends TextNode {
+		public ImplNode(Color color, Combined style) {
+			super(color, style);
+		}
+	}
 
 	/**
 	 * Test that the constructors works.
 	 */
 	@Test
 	void testConstructors() {
-		// Text(String)
-		assertThat(new TextNode("Test"))
-				.isText("Test")
+		assertThat(new ImplNode(null, null))
 				.isNoColor()
 				.isNoStyle();
 
-		// Text(String, Color)
-		assertThat(new TextNode("Test 2", RED))
-				.isText("Test 2")
+		assertThat(new ImplNode(RED, null))
 				.isColor(RED)
 				.isNoStyle();
 
-		// Text(String, Formatting)
-		assertThat(new TextNode("Test 3", BOLD))
-				.isText("Test 3")
-				.isNoColor()
+		assertThat(new ImplNode(GREEN, new Combined(BOLD)))
+				.isColor(GREEN)
 				.isStyle(BOLD);
 
-		// Text(String, Color, Formatting)
-		assertThat(new TextNode("Test 4", RED, BOLD))
-				.isText("Test 4")
-				.isColor(RED)
-				.isStyle(BOLD);
-
-		// Text(String, Color, Formatting...)
-		assertThat(new TextNode("Test 4", RED, BOLD, OBFUSCATED))
-				.isText("Test 4")
-				.isColor(RED)
-				.isStyle(BOLD, OBFUSCATED);
-
-		// Text(String, Formatting, Color)
-		assertThat(new TextNode("Test 5", BOLD, RED))
-				.isText("Test 5")
-				.isColor(RED)
-				.isStyle(BOLD);
-
-		// Text(String, Formatting.Combined, Color)
-		assertThat(new TextNode("Test 6", new Formatting.Combined(BOLD, ITALIC), RED))
-				.isText("Test 6")
+		assertThat(new ImplNode(RED, new Combined(BOLD, ITALIC)))
 				.isColor(RED)
 				.isStyle(BOLD, ITALIC);
 
-
-		// Text(String, Color, Formatting.Combined)
-		assertThat(new TextNode("Test 7", GREEN, new Formatting.Combined(BOLD, UNDERLINED)))
-				.isText("Test 7")
-				.isColor(GREEN)
-				.isStyle(BOLD, UNDERLINED);
+		assertThat(new ImplNode(null, new Combined(BOLD, ITALIC)))
+				.isNoColor()
+				.isStyle(BOLD, ITALIC);
 	}
 
 	/**
@@ -72,8 +49,23 @@ public class TextNodeTests {
 	 */
 	@Test
 	void testLegacyString() {
-		assertThat(new TextNode("Test", RED, BOLD, ITALIC).toLegacyString())
-				.isEqualTo("\u00A7c\u00A7l\u00A7oTest");
+		assertThat(new ImplNode(RED, new Combined(BOLD, ITALIC)))
+				.isLegacyStringEqualTo("\u00A7c\u00A7l\u00A7o")
+				.isLegacyStringWithResolverEqualTo(null, "\u00A7c\u00A7l\u00A7o");
+
+		assertThat(new ImplNode(rgb(0x102110), null))
+				.isLegacyStringEqualTo("\u00A70")
+				.isLegacyStringWithResolverEqualTo(null, "\u00A70");
+	}
+	
+	/**
+	 * Test that the {@link TextNode#toString()} function works.
+	 */
+	@Test
+	void testString() {
+		assertThat(new ImplNode(RED, new Combined(BOLD, ITALIC)))
+				.isStringEqualTo("")
+				.isStringWithResolverEqualTo(null, "");
 	}
 
 	/**
@@ -81,17 +73,58 @@ public class TextNodeTests {
 	 */
 	@Test
 	void testJson() {
-		assertThat(new TextNode("Test", RED, BOLD))
-				.isJsonEqualTo(null, () -> {
+		assertThat(new ImplNode(null, null))
+				.isJsonEqualTo(() -> JsonNull.INSTANCE);
+
+		// Color: Legacy
+		assertThat(new ImplNode(RED, null))
+				.isJsonEqualTo(() -> {
 					JsonObject obj = new JsonObject();
 					obj.add("color", new JsonPrimitive("red"));
-					obj.add("bold", new JsonPrimitive(true));
-					obj.add("text", new JsonPrimitive("Test"));
 					return obj;
 				});
 
-		assertThat(new TextNode("Test"))
-				.isJsonEqualTo(null, () -> new JsonPrimitive("Test"));
+		// Color: RGB
+		assertThat(new ImplNode(rgb(0xFF0000), null))
+				.isJsonWithClientEqualTo(Client.DEFAULT_1_16_0, () -> {
+					JsonObject obj = new JsonObject();
+					obj.add("color", new JsonPrimitive("#ff0000"));
+					return obj;
+				});
+
+		// Color: RGB -> Legacy
+		assertThat(new ImplNode(rgb(0xFF0000), null))
+				.isJsonWithClientEqualTo(Client.DEFAULT_1_15_0, () -> {
+					JsonObject obj = new JsonObject();
+					obj.add("color", new JsonPrimitive("red"));
+					return obj;
+				});
+
+		// Styles: None
+		assertThat(new ImplNode(null, new Combined()))
+				.isJsonEqualTo(JsonObject::new);
+
+		// Styles: Some
+		assertThat(new ImplNode(null, new Combined(BOLD, RESET)))
+				.isJsonEqualTo(() -> {
+					JsonObject obj = new JsonObject();
+					obj.add("bold", new JsonPrimitive(true));
+					obj.add("reset", new JsonPrimitive(true));
+					return obj;
+				});
+
+		// Styles: All
+		assertThat(new ImplNode(null, new Combined(BOLD, RESET, UNDERLINED, STRIKETHROUGH, OBFUSCATED, ITALIC)))
+				.isJsonEqualTo(() -> {
+					JsonObject obj = new JsonObject();
+					obj.add("bold", new JsonPrimitive(true));
+					obj.add("reset", new JsonPrimitive(true));
+					obj.add("underlined", new JsonPrimitive(true));
+					obj.add("strikethrough", new JsonPrimitive(true));
+					obj.add("obfuscated", new JsonPrimitive(true));
+					obj.add("italic", new JsonPrimitive(true));
+					return obj;
+				});
 	}
 
 

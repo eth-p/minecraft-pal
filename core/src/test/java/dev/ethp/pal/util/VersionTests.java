@@ -2,7 +2,7 @@ package dev.ethp.pal.util;
 
 import org.junit.jupiter.api.Test;
 import static dev.ethp.pal.util.Version.parseUnsafe;
-import static dev.ethp.pal.util.asserts.VersionAssert.assertThat;
+import static dev.ethp.pal.util.VersionAssert.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class VersionTests {

@@ -1,14 +1,13 @@
-package dev.ethp.pal.text.asserts
+package dev.ethp.pal.text
 
-import dev.ethp.pal.text.Formatting
+import Assert
 import dev.ethp.pal.text.Formatting.Combined
-import org.assertj.core.api.AbstractAssert
 import org.assertj.core.api.Assertions
 
 /**
  * Assertions for [Formatting.Combined].
  */
-class FormattingCombinedAssert(actual: Combined?) : AbstractAssert<FormattingCombinedAssert?, Combined?>(actual, FormattingCombinedAssert::class.java) {
+class FormattingCombinedAssert(actual: Combined?) : Assert<FormattingCombinedAssert, Combined>(actual, FormattingCombinedAssert::class.java) {
 	
 	/**
 	 * Assert that the the combined style has a specific style in it.
@@ -17,11 +16,10 @@ class FormattingCombinedAssert(actual: Combined?) : AbstractAssert<FormattingCom
 	 * @return Self, for chaining.
 	 */
 	fun hasStyle(expected: Formatting): FormattingCombinedAssert {
-		isNotNull()
-		if (!(actual!! has expected)) {
+		if (!(actually has expected)) {
 			failWithMessage("""
 				Expecting:  HAS $expected
-				Actual:     $actual
+				Actual:     $actually
 			""".trimIndent().trim())
 		}
 		return this
@@ -34,11 +32,10 @@ class FormattingCombinedAssert(actual: Combined?) : AbstractAssert<FormattingCom
 	 * @return Self, for chaining.
 	 */
 	fun withoutStyle(unexpected: Formatting): FormattingCombinedAssert {
-		isNotNull()
-		if (actual!! has unexpected) {
+		if (actually has unexpected) {
 			failWithMessage("""
 				Expecting:  NOT HAS $unexpected
-				Actual:     $actual
+				Actual:     $actually
 			""".trimIndent().trim())
 		}
 		return this
@@ -51,10 +48,10 @@ class FormattingCombinedAssert(actual: Combined?) : AbstractAssert<FormattingCom
 	 * @return Self, for chaining.
 	 */
 	fun isEqualTo(expected: Combined): FormattingCombinedAssert {
-		if (actual!! != expected) {
+		if (actually != expected) {
 			failWithMessage("""
 				Expecting:  $expected
-				Actual:     $actual
+				Actual:     $actually
 			""".trimIndent().trim())
 		}
 		return this
@@ -67,7 +64,7 @@ class FormattingCombinedAssert(actual: Combined?) : AbstractAssert<FormattingCom
 	 * @return Self, for chaining.
 	 */
 	fun isEqualTo(vararg expected: Formatting?): FormattingCombinedAssert {
-		Assertions.assertThat(java.util.HashSet(actual!!.styles()))
+		Assertions.assertThat(java.util.HashSet(actually.styles()))
 				.isEqualTo(java.util.HashSet<Formatting>(listOf(*expected)))
 		return this
 	}

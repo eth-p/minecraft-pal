@@ -6,9 +6,9 @@ import dev.ethp.pal.math.ColorSpace.LAB;
 import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
-import static dev.ethp.pal.math.asserts.XyzAssert.assertThat;
-import static dev.ethp.pal.math.asserts.RgbAssert.assertThat;
-import static dev.ethp.pal.math.asserts.LabAssert.assertThat;
+import static dev.ethp.pal.math.XyzAssert.assertThat;
+import static dev.ethp.pal.math.RgbAssert.assertThat;
+import static dev.ethp.pal.math.LabAssert.assertThat;
 
 public class ColorSpaceTests {
 

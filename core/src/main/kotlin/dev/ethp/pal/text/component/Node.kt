@@ -1,103 +1,86 @@
 package dev.ethp.pal.text.component
 
 import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonObject
-import com.google.gson.JsonPrimitive
 import dev.ethp.apistub.Export
-import dev.ethp.pal._internal.gson
+import dev.ethp.pal._internal.JsonUtil.gson
 import dev.ethp.pal.client.Client
-import dev.ethp.pal.client.ClientFeature.TEXT_RGB
-import dev.ethp.pal.text.Color
-import dev.ethp.pal.text.Formatting
-import dev.ethp.pal.text.Formatting.Companion.BOLD
-import dev.ethp.pal.text.Formatting.Companion.ITALIC
-import dev.ethp.pal.text.Formatting.Companion.OBFUSCATED
-import dev.ethp.pal.text.Formatting.Companion.RESET
-import dev.ethp.pal.text.Formatting.Companion.STRIKETHROUGH
-import dev.ethp.pal.text.Formatting.Companion.UNDERLINED
+import dev.ethp.pal.text.placeholder.PlaceholderResolver
 
 /**
- * Abstract base class for all Minecraft text.
- * This contains all the basic properties that any text can have.
+ * An interface for generating Minecraft text nodes.
  *
  * @since 1.0
  */
 @Export
-abstract class Node {
-
-	// -------------------------------------------------------------------------------------------------------------
-	// Constructors:
-	// -------------------------------------------------------------------------------------------------------------
-
-	/**
-	 * Creates a new abstract text object with a color and a formatting style.
-	 *
-	 * @param color The color.
-	 * @param style The formatting style.
-	 * @since 1.0
-	 */
-	@Export
-	constructor(color: Color?, style: Formatting.Combined?) {
-		this.color = color
-		this.style = style
-	}
-
-
-	// -------------------------------------------------------------------------------------------------------------
-	// Fields:
-	// -------------------------------------------------------------------------------------------------------------
-
-	/**
-	 * The text color.
-	 * @since 1.0
-	 */
-	@Export
-	val color: Color?
-
-	/**
-	 * The text style.
-	 * @since 1.0
-	 */
-	@Export
-	val style: Formatting.Combined?
-
+interface Node {
 
 	// -------------------------------------------------------------------------------------------------------------
 	// Methods:
 	// -------------------------------------------------------------------------------------------------------------
 
+	/**
+	 * Gets the node as a text string.
+	 * 
+	 * @return The the text string.
+	 * 
+	 * @since 1.0
+	 */
 	@Export
-	open override fun toString(): String {
-		return "[[AbstractText]]"
+	override fun toString(): String
+
+	/**
+	 * Gets the node as a text string with all placeholders resolved.
+	 *
+	 * @param resolver The placeholder resolver.
+	 * @return The the text string.
+	 *
+	 * @since 1.0
+	 */
+	@Export
+	@JvmDefault
+	fun toString(resolver: PlaceholderResolver?): String {
+		return this.toString()
 	}
 
 	/**
-	 * Gets the text as a legacy Minecraft text string.
+	 * Gets the node as a legacy Minecraft text string.
+	 * 
 	 * @return The legacy text string with Minecraft formatting codes.
+	 * 
 	 * @since 1.0
 	 */
 	@Export
-	open fun toLegacyString(): String {
-		val builder = StringBuilder()
-		val color = this.color
-		val styles = this.style
-
-		// Append color code.
-		if (color != null) {
-			builder.append(color.toLegacyString())
-		}
-
-		// Append style codes.
-		if (styles != null) {
-			builder.append(styles.toLegacyString())
-		}
-
-		return builder.toString()
+	fun toLegacyString(): String
+	
+	/**
+	 * Gets the node as a legacy Minecraft text string with all placeholders resolved.
+	 *
+	 * @param resolver The placeholder resolver.
+	 * @return The legacy text string with Minecraft formatting codes.
+	 *
+	 * @since 1.0
+	 */
+	@Export
+	@JvmDefault
+	fun toLegacyString(resolver: PlaceholderResolver?): String {
+		return this.toLegacyString()
 	}
+	
+	/**
+	 * Gets the node as a JSON text object.
+	 *
+	 * @param client The client information.
+	 * @param resolver The placeholder resolver.
+	 * @return The JSON object.
+	 *
+	 * @since 1.0
+	 */
+	@Export
+	fun toJson(client: Client?, resolver: PlaceholderResolver?): JsonElement
 
 	/**
-	 * Gets the text as Minecraft text JSON.
+	 * Gets the node as a JSON text object.
+	 * Placeholders will not be resolved.
 	 *
 	 * @param client The client information.
 	 * @return The JSON object.
@@ -105,59 +88,52 @@ abstract class Node {
 	 * @since 1.0
 	 */
 	@Export
-	open fun toJson(client: Client?): JsonElement {
-		val color = this.color
-		val styles = this.style
-
-		if (color == null && styles == null) {
-			return JsonNull.INSTANCE
-		}
-
-		// Set color property.
-		val obj = JsonObject()
-		if (color != null) {
-			val colorName = if (client != null && client supports TEXT_RGB) color.name else color.legacyName
-			obj.add("color", JsonPrimitive(colorName))
-		}
-
-		// Set formatting properties.
-		if (styles != null) {
-			if (styles has RESET) obj.add("reset", JsonPrimitive(true))
-			if (styles has OBFUSCATED) obj.add("obfuscated", JsonPrimitive(true))
-			if (styles has BOLD) obj.add("bold", JsonPrimitive(true))
-			if (styles has STRIKETHROUGH) obj.add("strikethrough", JsonPrimitive(true))
-			if (styles has UNDERLINED) obj.add("underlined", JsonPrimitive(true))
-			if (styles has ITALIC) obj.add("italic", JsonPrimitive(true))
-		}
-
-		// Return.
-		return obj
+	@JvmDefault
+	fun toJson(client: Client?): JsonElement {
+		return this.toJson(client, null)
 	}
 
 	/**
-	 * Gets the text as Minecraft text JSON.
-	 * This assumes a legacy client.
+	 * Gets the node as a JSON text object.
+	 *
+	 * @param resolver The placeholder resolver.
+	 * @return The JSON object.
+	 *
+	 * @since 1.0
+	 */
+	@Export
+	@JvmDefault
+	fun toJson(resolver: PlaceholderResolver?): JsonElement {
+		return this.toJson(null, resolver)
+	}
+
+	/**
+	 * Gets the node as a JSON text object.
+	 * This assumes a legacy client, and placeholders will not be resolved.
 	 *
 	 * @return The JSON object.
 	 *
 	 * @since 1.0
 	 */
 	@Export
-	fun toJson(): Any? {
-		return this.toJson(null)
+	@JvmDefault
+	fun toJson(): JsonElement {
+		return this.toJson(null, null)
 	}
 
 	/**
-	 * Gets the text as serialized Minecraft text JSON.
+	 * Gets the node as serialized text JSON.
 	 *
 	 * @param client The client information.
+	 * @param resolver The placeholder resolver.
 	 * @return The serialized JSON.
 	 *
 	 * @since 1.0
 	 */
 	@Export
-	fun toJsonString(client: Client?): String {
-		return gson.toJson(toJson(client))
+	@JvmDefault
+	fun toJsonString(client: Client?, resolver: PlaceholderResolver?): String {
+		return gson.toJson(this.toJson(client, resolver))
 	}
 
 	/**
@@ -169,19 +145,9 @@ abstract class Node {
 	 * @since 1.0
 	 */
 	@Export
+	@JvmDefault
 	fun toJsonString(): String {
-		return gson.toJson(toJson())
-	}
-
-
-	// -------------------------------------------------------------------------------------------------------------
-	// Helpers:
-	// -------------------------------------------------------------------------------------------------------------
-
-	companion object {
-
-//		fun parse
-
+		return gson.toJson(this.toJson())
 	}
 
 }

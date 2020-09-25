@@ -1,13 +1,12 @@
-package dev.ethp.pal.text.asserts
+package dev.ethp.pal.text
 
-import dev.ethp.pal.text.Color
+import Assert
 import dev.ethp.pal.text.Color.Companion.rgb
-import org.assertj.core.api.AbstractAssert
 
 /**
  * Assertions for [Color].
  */
-class ColorAssert(actual: Color?) : AbstractAssert<ColorAssert?, Color?>(actual, ColorAssert::class.java) {
+class ColorAssert(actual: Color?) : Assert<ColorAssert, Color>(actual, ColorAssert::class.java) {
 
 	/**
 	 * Assert that the color must be quantized for legacy clients.
@@ -15,9 +14,8 @@ class ColorAssert(actual: Color?) : AbstractAssert<ColorAssert?, Color?>(actual,
 	 * @return Self, for chaining.
 	 */
 	fun isQuantized(): ColorAssert {
-		isNotNull()
-		if (actual!!.isLegacy()) {
-			failWithMessage("Color $actual does not require quantization.")
+		if (actually.isLegacy()) {
+			failWithMessage("Color $actually does not require quantization.")
 		}
 		return this
 	}
@@ -28,9 +26,8 @@ class ColorAssert(actual: Color?) : AbstractAssert<ColorAssert?, Color?>(actual,
 	 * @return Self, for chaining.
 	 */
 	fun isLegacy(): ColorAssert {
-		isNotNull()
-		if (!actual!!.isLegacy()) {
-			failWithMessage("Color $actual is not a legacy color.")
+		if (!actually.isLegacy()) {
+			failWithMessage("Color $actually is not a legacy color.")
 		}
 		return this
 	}
@@ -54,11 +51,10 @@ class ColorAssert(actual: Color?) : AbstractAssert<ColorAssert?, Color?>(actual,
 	 * @return Self, for chaining.
 	 */
 	fun hasCode(expected: Char): ColorAssert {
-		isNotNull()
-		if (actual!!.code != expected) {
+		if (actually.code != expected) {
 			failWithMessage("""
 				Expecting:  '$expected'
-				Actual:     '${actual.code}'
+				Actual:     '${actually.code}'
  			""".trimIndent().trim())
 		}
 		return this
@@ -71,11 +67,10 @@ class ColorAssert(actual: Color?) : AbstractAssert<ColorAssert?, Color?>(actual,
 	 * @return Self, for chaining.
 	 */
 	fun hasRgb(expected: Int): ColorAssert {
-		isNotNull()
-		if (actual!!.rgb != expected) {
+		if (actually.rgb != expected) {
 			failWithMessage("""
 				Expecting:  ${rgb(expected)}
-				Actual:     $actual
+				Actual:     $actually
 			""".trimIndent().trim())
 		}
 		return this
@@ -88,11 +83,10 @@ class ColorAssert(actual: Color?) : AbstractAssert<ColorAssert?, Color?>(actual,
 	 * @return Self, for chaining.
 	 */
 	fun hasName(expected: String): ColorAssert {
-		isNotNull()
-		if (actual!!.name != expected) {
+		if (actually.name != expected) {
 			failWithMessage("""
 				Expecting:  $expected
-				Actual:     ${actual.name}
+				Actual:     ${actually.name}
 			""".trimIndent().trim())
 		}
 		return this
@@ -105,11 +99,10 @@ class ColorAssert(actual: Color?) : AbstractAssert<ColorAssert?, Color?>(actual,
 	 * @return Self, for chaining.
 	 */
 	fun hasLegacyName(expected: String): ColorAssert {
-		isNotNull()
-		if (actual!!.legacyName != expected) {
+		if (actually.legacyName != expected) {
 			failWithMessage("""
 				Expecting:  $expected
-				Actual:     ${actual.legacyName}
+				Actual:     ${actually.legacyName}
 			""".trimIndent().trim())
 		}
 		return this
@@ -122,10 +115,10 @@ class ColorAssert(actual: Color?) : AbstractAssert<ColorAssert?, Color?>(actual,
 	 * @return Self, for chaining.
 	 */
 	fun isEqualTo(expected: Color): ColorAssert {
-		if (actual!! != expected) {
+		if (actually != expected) {
 			failWithMessage("""
 				Expecting:  $expected
-				Actual:     $actual
+				Actual:     $actually
 			""".trimIndent().trim())
 		}
 		return this
@@ -138,7 +131,7 @@ class ColorAssert(actual: Color?) : AbstractAssert<ColorAssert?, Color?>(actual,
 	 * @return Self, for chaining.
 	 */
 	fun isEqualToIdentity(expected: Color): ColorAssert {
-		if (actual !== expected) {
+		if (actually !== expected) {
 			failWithMessage("Expecting equal identity, but objects were not equal.")
 		}
 		return this

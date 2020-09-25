@@ -42,7 +42,7 @@ final class Color {
 		@Export
 		get() {
 			if (this._char == '\u0000') {
-				this._char = rgbToCode(rgb);
+				this._char = rgbToCode(rgb)
 			}
 
 			return this._char

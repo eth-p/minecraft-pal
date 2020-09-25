@@ -1,5 +1,6 @@
-package dev.ethp.pal.math.asserts
+package dev.ethp.pal.math
 
+import Assert
 import dev.ethp.pal.math.ColorSpace.RGB
 import org.assertj.core.api.AbstractAssert
 import kotlin.math.abs
@@ -7,7 +8,7 @@ import kotlin.math.abs
 /**
  * Assertions for [RGB].
  */
-class RgbAssert(actual: RGB?) : AbstractAssert<RgbAssert?, RGB?>(actual, RgbAssert::class.java) {
+class RgbAssert(actual: RGB?) : Assert<RgbAssert, RGB>(actual, RgbAssert::class.java) {
 	
 	/**
 	 * Assert that the color space values are roughly equal to provided values.
@@ -19,11 +20,10 @@ class RgbAssert(actual: RGB?) : AbstractAssert<RgbAssert?, RGB?>(actual, RgbAsse
 	 * @return Self, for chaining.
 	 */
 	fun hasRGB(r: Double, g: Double, b: Double): RgbAssert {
-		isNotNull()
-		if (abs(actual!!.R - r) > 0.001 || abs(actual.G - g) > 0.001 || abs(actual.B - b) > 0.001) {
+		if (abs(actually.R - r) > 0.001 || abs(actually.G - g) > 0.001 || abs(actually.B - b) > 0.001) {
 			failWithMessage("""
 				Expecting:  RGB($r,$g,$b)
-				Actual:     RGB(${actual.R},${actual.G},${actual.B})
+				Actual:     RGB(${actually.R},${actually.G},${actually.B})
 			""".trimIndent().trim())
 		}
 		return this

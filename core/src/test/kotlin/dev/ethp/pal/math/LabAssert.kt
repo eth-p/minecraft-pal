@@ -1,5 +1,6 @@
-package dev.ethp.pal.math.asserts
+package dev.ethp.pal.math
 
+import Assert
 import dev.ethp.pal.math.ColorSpace.LAB
 import org.assertj.core.api.AbstractAssert
 import kotlin.math.abs
@@ -7,7 +8,7 @@ import kotlin.math.abs
 /**
  * Assertions for [LAB].
  */
-class LabAssert(actual: LAB?) : AbstractAssert<LabAssert?, LAB?>(actual, LabAssert::class.java) {
+class LabAssert(actual: LAB?) : Assert<LabAssert, LAB>(actual, LabAssert::class.java) {
 	
 	/**
 	 * Assert that the color space values are roughly equal to provided values.
@@ -19,10 +20,9 @@ class LabAssert(actual: LAB?) : AbstractAssert<LabAssert?, LAB?>(actual, LabAsse
 	 * @return Self, for chaining.
 	 */
 	fun hasLAB(l: Double, a: Double, b: Double): LabAssert {
-		isNotNull()
-		if (abs(actual!!.L - l) > 0.1 || abs(actual.a - a) > 0.1 || abs(actual.b - b) > 0.1) {
+		if (abs(actually.L - l) > 0.1 || abs(actually.a - a) > 0.1 || abs(actually.b - b) > 0.1) {
 			failWithMessage("""
-				Expecting:  LAB(${actual.L},${actual.a},${actual.b}).
+				Expecting:  LAB(${actually.L},${actually.a},${actually.b}).
 				Actual:     LAB($l,$a,$b)
 			""".trimIndent().trim())
 		}

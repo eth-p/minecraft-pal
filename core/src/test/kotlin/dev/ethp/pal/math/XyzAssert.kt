@@ -1,5 +1,6 @@
-package dev.ethp.pal.math.asserts
+package dev.ethp.pal.math
 
+import Assert
 import dev.ethp.pal.math.ColorSpace.XYZ
 import org.assertj.core.api.AbstractAssert
 import kotlin.math.abs
@@ -7,7 +8,7 @@ import kotlin.math.abs
 /**
  * Assertions for [dev.ethp.pal.math.ColorSpace.XYZ].
  */
-class XyzAssert(actual: XYZ?) : AbstractAssert<XyzAssert?, XYZ?>(actual, XyzAssert::class.java) {
+class XyzAssert(actual: XYZ?) : Assert<XyzAssert, XYZ>(actual, XyzAssert::class.java) {
 	
 	/**
 	 * Assert that the color space values are roughly equal to provided values.
@@ -19,11 +20,10 @@ class XyzAssert(actual: XYZ?) : AbstractAssert<XyzAssert?, XYZ?>(actual, XyzAsse
 	 * @return Self, for chaining.
 	 */
 	fun hasXYZ(x: Double, y: Double, z: Double): XyzAssert {
-		isNotNull()
-		if (abs(actual!!.X - x) > 0.1 || abs(actual.Y - y) > 0.1 || abs(actual.Z - z) > 0.1) {
+		if (abs(actually.X - x) > 0.1 || abs(actually.Y - y) > 0.1 || abs(actually.Z - z) > 0.1) {
 			failWithMessage("""
 				Expecting:  XYZ($x,$y,$z)
-				Actual:     XYZ(${actual.X},${actual.Y},${actual.Z})
+				Actual:     XYZ(${actually.X},${actually.Y},${actually.Z})
 			""".trimIndent().trim())
 		}
 		return this

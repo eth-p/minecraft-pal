@@ -1,5 +1,6 @@
-package dev.ethp.pal.client.asserts
+package dev.ethp.pal.client
 
+import Assert
 import dev.ethp.pal.client.Client
 import dev.ethp.pal.client.ClientFeature
 import dev.ethp.pal.client.ClientVersion
@@ -8,7 +9,7 @@ import org.assertj.core.api.AbstractAssert
 /**
  * Assertions for [ClientFeature].
  */
-class ClientFeatureAssert(actual: ClientFeature?) : AbstractAssert<ClientFeatureAssert?, ClientFeature?>(actual, ClientFeatureAssert::class.java) {
+class ClientFeatureAssert(actual: ClientFeature?) : Assert<ClientFeatureAssert, ClientFeature>(actual, ClientFeatureAssert::class.java) {
 
 	/**
 	 * Assert that the feature is not supported by a specific client version.
@@ -17,10 +18,10 @@ class ClientFeatureAssert(actual: ClientFeature?) : AbstractAssert<ClientFeature
 	 * @return Self, for chaining.
 	 */
 	fun notAppliesTo(version: ClientVersion): ClientFeatureAssert {
-		if (actual!! appliesTo version) {
+		if (actually appliesTo version) {
 			failWithMessage("""
-				Expecting:  $version does not support $actual
-				Actual:     $version supports $actual
+				Expecting:  $version does not support $actually
+				Actual:     $version supports $actually
 			""".trimIndent().trim())
 		}
 		return this
@@ -33,10 +34,10 @@ class ClientFeatureAssert(actual: ClientFeature?) : AbstractAssert<ClientFeature
 	 * @return Self, for chaining.
 	 */
 	fun appliesTo(version: ClientVersion): ClientFeatureAssert {
-		if (!(actual!! appliesTo version)) {
+		if (!(actually appliesTo version)) {
 			failWithMessage("""
-				Expecting:  $version supports $actual
-				Actual:     $version does not support $actual
+				Expecting:  $version supports $actually
+				Actual:     $version does not support $actually
 			""".trimIndent().trim())
 		}
 		return this

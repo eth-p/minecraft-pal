@@ -1,12 +1,11 @@
-package dev.ethp.pal.text.asserts
+package dev.ethp.pal.text
 
-import dev.ethp.pal.text.Formatting
-import org.assertj.core.api.AbstractAssert
+import Assert
 
 /**
  * Assertions for [Formatting].
  */
-class FormattingAssert(actual: Formatting?) : AbstractAssert<FormattingAssert?, Formatting?>(actual, FormattingAssert::class.java) {
+class FormattingAssert(actual: Formatting?) : Assert<FormattingAssert, Formatting>(actual, FormattingAssert::class.java) {
 	
 	/**
 	 * Assert that the formatting has a specific code corresponding to it.
@@ -15,16 +14,14 @@ class FormattingAssert(actual: Formatting?) : AbstractAssert<FormattingAssert?, 
 	 * @return Self, for chaining.
 	 */
 	fun hasCode(expected: Char): FormattingAssert {
-		isNotNull()
-		if (actual!!.code != expected) {
+		if (actually.code != expected) {
 			failWithMessage("""
 				Expecting:  '$expected'
-				Actual:     '${actual.code}'
+				Actual:     '${actually.code}'
 			""".trimIndent().trim())
 		}
 		return this
 	}
-
 
 	/**
 	 * Assert that the color has a specific name.
@@ -33,11 +30,10 @@ class FormattingAssert(actual: Formatting?) : AbstractAssert<FormattingAssert?, 
 	 * @return Self, for chaining.
 	 */
 	fun hasName(expected: String): FormattingAssert {
-		isNotNull()
-		if (actual!!.name != expected) {
+		if (actually.name != expected) {
 			failWithMessage("""
 				Expecting:  $expected
-				Actual:     ${actual.name}
+				Actual:     ${actually.name}
 			""".trimIndent().trim())
 		}
 		return this
@@ -61,10 +57,10 @@ class FormattingAssert(actual: Formatting?) : AbstractAssert<FormattingAssert?, 
 	 * @return Self, for chaining.
 	 */
 	fun isEqualTo(expected: Formatting): FormattingAssert {
-		if (actual!! != expected) {
+		if (actually != expected) {
 			failWithMessage("""
 				Expecting:  $expected
-				Actual:     $actual
+				Actual:     $actually
 			""".trimIndent().trim())
 		}
 		return this
@@ -77,7 +73,7 @@ class FormattingAssert(actual: Formatting?) : AbstractAssert<FormattingAssert?, 
 	 * @return Self, for chaining.
 	 */
 	fun isEqualToIdentity(expected: Formatting): FormattingAssert {
-		if (actual !== expected) {
+		if (actually !== expected) {
 			failWithMessage("Expecting equal identity, but objects were not equal.")
 		}
 		return this

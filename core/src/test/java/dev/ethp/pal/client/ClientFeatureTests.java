@@ -1,7 +1,7 @@
 package dev.ethp.pal.client;
 
 import org.junit.jupiter.api.Test;
-import static dev.ethp.pal.client.asserts.ClientFeatureAssert.assertThat;
+import static dev.ethp.pal.client.ClientFeatureAssert.assertThat;
 
 public class ClientFeatureTests {
 

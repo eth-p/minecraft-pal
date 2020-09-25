@@ -1,7 +1,7 @@
 package dev.ethp.pal.text;
 
 import org.junit.jupiter.api.Test;
-import static dev.ethp.pal.text.asserts.ColorAssert.assertThat;
+import static dev.ethp.pal.text.ColorAssert.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
 import static dev.ethp.pal.text.Color.*;
 
